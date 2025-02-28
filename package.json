@@ -1,5 +1,5 @@
 {
-  "name": "mono-repo",
+  "name": "cloud-hub",
   "version": "0.0.0-development",
   "description": "",
   "author": "chrille0313",
@@ -14,7 +14,7 @@
     "dev": "turbo dev",
     "build": "turbo build",
     "lint": "turbo lint",
-    "format-code": "turbo format-code"
+    "lint:fix": "turbo lint:fix"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.6.0",
