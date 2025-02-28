@@ -1,0 +1,25 @@
+{
+  "name": "mono-repo",
+  "version": "0.0.0-development",
+  "description": "",
+  "author": "chrille0313",
+  "type": "module",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "packageManager": "npm@10.7.0",
+  "scripts": {
+    "prepare": "husky",
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "format-code": "turbo format-code"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.6.0",
+    "@commitlint/config-conventional": "^19.6.0",
+    "husky": "^9.1.7",
+    "turbo": "^2.3.1"
+  }
+}
