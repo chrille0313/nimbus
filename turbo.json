@@ -7,10 +7,25 @@
     },
     "build": {
       "dependsOn": ["^build"],
-      "outputs": [".next/**", "!.next/cache/**"]
+      "outputs": [".next/**", "!.next/cache/**", "dist/**"]
     },
     "lint": {
-      "dependsOn": ["^lint"]
+      "dependsOn": ["^lint", "lint:code", "lint:styles"]
+    },
+    "lint:code": {
+      "dependsOn": ["^lint:code"]
+    },
+    "lint:styles": {
+      "dependsOn": ["^lint:styles"]
+    },
+    "lint:fix": {
+      "dependsOn": ["^lint:fix", "lint:code:fix", "lint:styles:fix"]
+    },
+    "lint:code:fix": {
+      "dependsOn": ["^lint:code:fix"]
+    },
+    "lint:styles:fix": {
+      "dependsOn": ["^lint:styles:fix"]
     }
   }
 }

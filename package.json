@@ -1,25 +1,30 @@
 {
   "name": "cloud-hub",
-  "version": "0.0.0-development",
   "description": "",
+  "version": "0.0.0-development",
   "author": "chrille0313",
   "type": "module",
   "workspaces": [
     "apps/*",
     "packages/*"
   ],
-  "packageManager": "npm@10.7.0",
+  "packageManager": "npm@11.2.0",
   "scripts": {
     "prepare": "husky",
     "dev": "turbo dev",
     "build": "turbo build",
     "lint": "turbo lint",
-    "lint:fix": "turbo lint:fix"
+    "ling:code": "turbo lint:code",
+    "lint:styles": "turbo lint:styles",
+    "lint:fix": "turbo lint:fix",
+    "lint:code:fix": "turbo lint:code:fix",
+    "lint:styles:fix": "turbo lint:styles:fix"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.6.0",
     "@commitlint/config-conventional": "^19.6.0",
     "husky": "^9.1.7",
-    "turbo": "^2.3.1"
+    "prettier": "^3.5.3",
+    "turbo": "^2.4.4"
   }
 }
