@@ -10,6 +10,10 @@
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "scripts": {
+    "prepare": "npm run build",
+    "lint": "npm run lint:code && npm run lint:specification",
+    "lint:code": "eslint .",
+    "lint:specification": "npx @scalar/cli validate src/openapi.yaml",
     "build": "npm run clean && npm run generate-types && pkgroll && npm run copy-spec",
     "copy-spec": "cpx src/openapi.yaml dist/",
     "clean": "rimraf dist",
@@ -19,6 +23,7 @@
     "yaml": "^2.7.0"
   },
   "devDependencies": {
+    "@repo/eslint-config": "*",
     "@types/node": "^22.13.10",
     "@types/yamljs": "^0.2.34",
     "cpx": "^1.5.0",
