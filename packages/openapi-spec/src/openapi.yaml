@@ -52,6 +52,8 @@ paths:
           $ref: '#/components/responses/unauthorized'
         '403':
           $ref: '#/components/responses/forbidden'
+        '500':
+          $ref: '#/components/responses/internal_server_error'
     post:
       operationId: createCloud
       summary: Create New Cloud
@@ -87,6 +89,8 @@ paths:
           $ref: '#/components/responses/unauthorized'
         '403':
           $ref: '#/components/responses/forbidden'
+        '500':
+          $ref: '#/components/responses/internal_server_error'
   /clouds/{id}:
     get:
       operationId: getCloud
@@ -125,6 +129,8 @@ paths:
           $ref: '#/components/responses/forbidden'
         '404':
           $ref: '#/components/responses/not_found'
+        '500':
+          $ref: '#/components/responses/internal_server_error'
     delete:
       operationId: deleteCloud
       summary: Delete a Cloud
@@ -162,6 +168,8 @@ paths:
           $ref: '#/components/responses/forbidden'
         '404':
           $ref: '#/components/responses/not_found'
+        '500':
+          $ref: '#/components/responses/internal_server_error'
 components:
   schemas:
     uuid:
@@ -179,7 +187,7 @@ components:
       type: object
       properties:
         id:
-          $ref: '#/components/schemas/uuid'
+          type: string
         name:
           type: string
         username:
@@ -245,6 +253,8 @@ components:
                     type: string
                   reason:
                     type: string
+                  errors:
+                    type: object
                 required:
                   - message
                   - reason
@@ -307,6 +317,28 @@ components:
             required:
               - status
               - data
+    internal_server_error:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                  - error
+              message:
+                type: string
+                enum:
+                  - An internal server error has occured
+              code:
+                type: string
+              data:
+                type: object
+            required:
+              - status
+              - message
     not_found:
       description: Resource Not Found
       content:
