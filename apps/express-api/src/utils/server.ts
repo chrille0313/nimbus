@@ -4,6 +4,7 @@ import config from '@/config';
 import * as OpenApiValidator from 'express-openapi-validator';
 import { Express } from 'express-serve-static-core';
 import { connector, summarise, Controllers } from 'swagger-routes-express';
+import { createErrorMiddleware } from '@/middleware/errorHandling';
 import { consoleLogs } from '@/middleware/logging';
 import { fileLogs } from '@/middleware/logging';
 import { auth } from '@/lib/auth';
@@ -11,6 +12,9 @@ import { toNodeHandler } from 'better-auth/node';
 import { authMiddleware } from '@/middleware/auth';
 import { apiReference } from '@scalar/express-api-reference';
 import { APISpec } from '@repo/openapi-spec';
+import { betterAuthErrorAdapter } from '../middleware/errorAdapters/better-auth';
+import { eoaValidatorErrorAdapter } from '../middleware/errorAdapters/express-openapi-validator';
+import { nativeErrorAdapter } from '../middleware/errorAdapters/native';
 
 export async function createServer(
   controllers: Controllers,
@@ -72,6 +76,11 @@ export async function createServer(
   });
 
   connect(server);
+
+  // Add error handlers
+  server.use(
+    createErrorMiddleware(betterAuthErrorAdapter, eoaValidatorErrorAdapter, nativeErrorAdapter)
+  );
 
   return server;
 }
