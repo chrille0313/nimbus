@@ -30,6 +30,9 @@
     "express": "^5.0.1",
     "express-openapi-validator": "^5.4.6",
     "jsend": "^1.1.0",
+    "lodash": "^4.17.21",
+    "morgan": "^1.10.0",
+    "rotating-file-stream": "^3.2.6",
     "swagger-routes-express": "^3.3.3",
     "validator": "^13.12.0"
   },
@@ -38,6 +41,8 @@
     "@types/dotenv-parse-variables": "^2.0.3",
     "@types/express": "^5.0.0",
     "@types/jsend": "^1.0.32",
+    "@types/lodash": "^4.17.16",
+    "@types/morgan": "^1.9.9",
     "@types/node": "^22.13.9",
     "@types/validator": "^13.12.2",
     "cross-env": "^7.0.3",

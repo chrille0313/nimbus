@@ -1,8 +1,11 @@
 import express from 'express';
 import jsend from 'jsend';
+import config from '@/config';
 import * as OpenApiValidator from 'express-openapi-validator';
 import { Express } from 'express-serve-static-core';
 import { connector, summarise, Controllers } from 'swagger-routes-express';
+import { consoleLogs } from '@/middleware/logging';
+import { fileLogs } from '@/middleware/logging';
 import { apiReference } from '@scalar/express-api-reference';
 import { APISpec } from '@repo/openapi-spec';
 
@@ -13,6 +16,10 @@ export async function createServer(
   console.log(summarise(openAPISpec));
 
   const server = express();
+
+  // Add logging
+  if (config.logToConsole) server.use(consoleLogs('dev'));
+  if (config.logToFile) server.use(fileLogs(config.logFilePath));
 
   // Add jsend response formatting
   server.use(jsend.middleware);
