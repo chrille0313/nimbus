@@ -1,5 +1,6 @@
 import express from 'express';
 import jsend from 'jsend';
+import * as OpenApiValidator from 'express-openapi-validator';
 import { Express } from 'express-serve-static-core';
 import { connector, summarise, Controllers } from 'swagger-routes-express';
 import { APISpec } from '@repo/openapi-spec';
@@ -19,6 +20,20 @@ export async function createServer(
   server.use(express.urlencoded({ extended: false }));
   server.use(express.json());
   server.use(express.text());
+
+  // Add request and response validation from the OpenAPI specification
+  server.use(
+    OpenApiValidator.middleware({
+      apiSpec: openAPISpec as any, // FIXME: Don't use any
+      validateRequests: {
+        removeAdditional: 'all'
+      },
+      validateResponses: {
+        // removeAdditional: 'all'
+      },
+      validateApiSpec: true
+    })
+  );
 
   // Autowire the controllers to the url paths in the OpenAPI specification - uses operationId
   const connect = connector(controllers, openAPISpec, {
