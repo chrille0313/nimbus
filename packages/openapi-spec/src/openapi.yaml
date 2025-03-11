@@ -1,0 +1,452 @@
+openapi: 3.1.0
+info:
+  title: CloudHub - OpenAPI 3.1 Specification
+  version: 1.0.0
+servers:
+  - url: /api/v1
+tags:
+  - name: Clouds
+    description: Operations related to managing user clouds
+paths:
+  /specification:
+    get:
+      summary: Get the OpenAPI specification
+      description: Returns the OpenAPI specification for this API.
+      operationId: getSpecification
+      responses:
+        '200':
+          description: The OpenAPI specification
+          content:
+            application/json:
+              schema:
+                type: object
+  /clouds:
+    get:
+      operationId: getClouds
+      summary: List Owned Clouds
+      description: Retrieves all clouds owned by the authenticated user
+      tags:
+        - Clouds
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum:
+                      - success
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/cloud'
+                      required:
+                        - id
+                        - name
+                        - owner
+                        - allocatedStorage
+                        - image
+                        - createdAt
+                        - updatedAt
+                required:
+                  - status
+                  - data
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '500':
+          $ref: '#/components/responses/internal_server_error'
+    post:
+      operationId: createCloud
+      summary: Create New Cloud
+      description: Creates and allocates storage to a new cloud for the authenticated user
+      tags:
+        - Clouds
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/cloud'
+              required:
+                - name
+                - allocatedStorage
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum:
+                      - success
+                  data:
+                    $ref: '#/components/schemas/cloud'
+                    required:
+                      - id
+                      - name
+                      - owner
+                      - allocatedStorage
+                      - image
+                      - createdAt
+                      - updatedAt
+                required:
+                  - status
+                  - data
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '500':
+          $ref: '#/components/responses/internal_server_error'
+  /clouds/{id}:
+    get:
+      operationId: getCloud
+      summary: Get Cloud Details
+      description: Retrieves details about a Cloud owned or shared with the authenticated user.
+      tags:
+        - Clouds
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/uuid'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/cloud'
+              required:
+                - name
+                - allocatedStorage
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum:
+                      - success
+                  data:
+                    $ref: '#/components/schemas/cloud'
+                    required:
+                      - id
+                      - name
+                      - owner
+                      - allocatedStorage
+                      - image
+                      - createdAt
+                      - updatedAt
+                required:
+                  - status
+                  - data
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/not_found'
+        '500':
+          $ref: '#/components/responses/internal_server_error'
+    patch:
+      operationId: updateCloud
+      summary: Update Cloud Details
+      description: Updates details on a Cloud owned by the authenticated user.
+      tags:
+        - Clouds
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/uuid'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum:
+                      - success
+                  data:
+                    $ref: '#/components/schemas/cloud'
+                    required:
+                      - id
+                      - name
+                      - owner
+                      - allocatedStorage
+                      - image
+                      - createdAt
+                      - updatedAt
+                required:
+                  - status
+                  - data
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/not_found'
+        '500':
+          $ref: '#/components/responses/internal_server_error'
+    delete:
+      operationId: deleteCloud
+      summary: Delete a Cloud
+      description: Deletes a Cloud owned by the authenticated user.
+      tags:
+        - Clouds
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/uuid'
+      responses:
+        '200':
+          description: Deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum:
+                      - success
+                  data:
+                    type: 'null'
+                required:
+                  - status
+                  - data
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/not_found'
+        '500':
+          $ref: '#/components/responses/internal_server_error'
+components:
+  schemas:
+    uuid:
+      type: string
+      format: uuid
+    image:
+      type: string
+      description: The path to where the image can be retrieved
+    createdAt:
+      type: string
+      format: date-time
+      readOnly: true
+    updatedAt:
+      type: string
+      format: date-time
+      readOnly: true
+    user:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        username:
+          type: string
+        image:
+          $ref: '#/components/schemas/image'
+        createdAt:
+          $ref: '#/components/schemas/createdAt'
+        updatedAt:
+          $ref: '#/components/schemas/updatedAt'
+      required:
+        - id
+        - name
+        - username
+        - image
+        - createdAt
+        - updatedAt
+    cloud:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/uuid'
+          readOnly: true
+          description: The id of the cloud
+        name:
+          type: string
+          description: The name of the cloud
+        owner:
+          $ref: '#/components/schemas/user'
+          readOnly: true
+          description: The user that owns the cloud
+        image:
+          $ref: '#/components/schemas/image'
+        allocatedStorage:
+          type: number
+          minimum: 1
+          description: The amount of storage (in bytes) allocated for the cloud
+        createdAt:
+          $ref: '#/components/schemas/createdAt'
+          description: The `date-time` the cloud was created
+        updatedAt:
+          $ref: '#/components/schemas/updatedAt'
+          description: The `date-time` the cloud was last updated
+  responses:
+    bad_request:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                  - fail
+              data:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  reason:
+                    type: string
+                  errors:
+                    type: object
+                required:
+                  - message
+                  - reason
+            required:
+              - status
+              - data
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                  - fail
+              data:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    enum:
+                      - Unauthorized access
+                  reason:
+                    type: string
+                    enum:
+                      - Invalid or missing authentication
+                required:
+                  - message
+                  - reason
+            required:
+              - status
+              - data
+    forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                  - fail
+              data:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    enum:
+                      - Permission denied
+                  reason:
+                    type: string
+                    enum:
+                      - Authenticated user does not have permission to access this resource
+                required:
+                  - message
+                  - reason
+            required:
+              - status
+              - data
+    internal_server_error:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                  - error
+              message:
+                type: string
+                enum:
+                  - An internal server error has occured
+              code:
+                type: string
+              data:
+                type: object
+            required:
+              - status
+              - message
+    not_found:
+      description: Resource Not Found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                  - fail
+              data:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    enum:
+                      - Requested resource not found
+                  reason:
+                    type: string
+                    enum:
+                      - The requested resource does not exist
+                required:
+                  - message
+                  - reason
+            required:
+              - status
+              - data
