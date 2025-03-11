@@ -6,6 +6,9 @@ import { Express } from 'express-serve-static-core';
 import { connector, summarise, Controllers } from 'swagger-routes-express';
 import { consoleLogs } from '@/middleware/logging';
 import { fileLogs } from '@/middleware/logging';
+import { auth } from '@/lib/auth';
+import { toNodeHandler } from 'better-auth/node';
+import { authMiddleware } from '@/middleware/auth';
 import { apiReference } from '@scalar/express-api-reference';
 import { APISpec } from '@repo/openapi-spec';
 
@@ -24,6 +27,9 @@ export async function createServer(
   // Add jsend response formatting
   server.use(jsend.middleware);
 
+  // Add auth handling (needs to be before express.json() middleware)
+  server.all('/api/v1/auth/*splat', toNodeHandler(auth));
+
   // Serve API documentation
   server.use(
     '/api/v1/reference',
@@ -40,6 +46,9 @@ export async function createServer(
   server.use(express.urlencoded({ extended: false }));
   server.use(express.json());
   server.use(express.text());
+
+  // Add auth middleware
+  server.use(authMiddleware);
 
   // Add request and response validation from the OpenAPI specification
   server.use(

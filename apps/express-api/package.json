@@ -25,6 +25,7 @@
     "@repo/db": "*",
     "@repo/openapi-spec": "*",
     "@scalar/express-api-reference": "^0.4.192",
+    "better-auth": "^1.2.3",
     "dotenv-extended": "^2.9.0",
     "dotenv-parse-variables": "^2.0.0",
     "express": "^5.0.1",
