@@ -43,6 +43,14 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/cloud'
+                      required:
+                        - id
+                        - name
+                        - owner
+                        - allocatedStorage
+                        - image
+                        - createdAt
+                        - updatedAt
                 required:
                   - status
                   - data
@@ -66,6 +74,9 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/cloud'
+              required:
+                - name
+                - allocatedStorage
       responses:
         '201':
           description: Created
@@ -80,6 +91,14 @@ paths:
                       - success
                   data:
                     $ref: '#/components/schemas/cloud'
+                    required:
+                      - id
+                      - name
+                      - owner
+                      - allocatedStorage
+                      - image
+                      - createdAt
+                      - updatedAt
                 required:
                   - status
                   - data
@@ -104,6 +123,15 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/uuid'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/cloud'
+              required:
+                - name
+                - allocatedStorage
       responses:
         '200':
           description: OK
@@ -118,6 +146,61 @@ paths:
                       - success
                   data:
                     $ref: '#/components/schemas/cloud'
+                    required:
+                      - id
+                      - name
+                      - owner
+                      - allocatedStorage
+                      - image
+                      - createdAt
+                      - updatedAt
+                required:
+                  - status
+                  - data
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/not_found'
+        '500':
+          $ref: '#/components/responses/internal_server_error'
+    patch:
+      operationId: updateCloud
+      summary: Update Cloud Details
+      description: Updates details on a Cloud owned by the authenticated user.
+      tags:
+        - Clouds
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/uuid'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum:
+                      - success
+                  data:
+                    $ref: '#/components/schemas/cloud'
+                    required:
+                      - id
+                      - name
+                      - owner
+                      - allocatedStorage
+                      - image
+                      - createdAt
+                      - updatedAt
                 required:
                   - status
                   - data
@@ -202,6 +285,8 @@ components:
         - username
         - createdAt
         - updatedAt
+    image:
+      type: string
     cloud:
       type: object
       properties:
@@ -216,6 +301,8 @@ components:
           $ref: '#/components/schemas/user'
           readOnly: true
           description: The user that owns the cloud
+        image:
+          $ref: '#/components/schemas/image'
         allocatedStorage:
           type: number
           minimum: 1
@@ -226,14 +313,6 @@ components:
         updatedAt:
           $ref: '#/components/schemas/updatedAt'
           description: The `date-time` the cloud was last updated
-      required:
-        - id
-        - name
-        - owner
-        - allocatedStorage
-        - image
-        - createdAt
-        - updatedAt
   responses:
     bad_request:
       description: Bad Request
