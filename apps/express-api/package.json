@@ -21,6 +21,7 @@
     "lint:styles:fix": "prettier . --write"
   },
   "dependencies": {
+    "@prisma/client": "^6.4.1",
     "@repo/db": "*",
     "@repo/openapi-spec": "*",
     "dotenv-extended": "^2.9.0",
