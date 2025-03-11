@@ -1,0 +1,41 @@
+{
+  "name": "express-api",
+  "description": "",
+  "version": "1.0.0",
+  "author": "chrille0313",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chrille0313/cloud-hub.git#main"
+  },
+  "bugs": {
+    "url": "https://github.com/chrille0313/cloud-hub/issues"
+  },
+  "homepage": "https://github.com/chrille0313/cloud-hub/tree/main#readme",
+  "type": "module",
+  "scripts": {
+    "start": "cross-env ENV_FILE=./config/.env.prod tsx dist/app.js",
+    "dev": "cross-env ENV_FILE=./config/.env.dev tsx watch src/app.ts",
+    "lint:code": "eslint .",
+    "lint:code:fix": "eslint . --fix",
+    "lint:styles": "prettier . --check",
+    "lint:styles:fix": "prettier . --write"
+  },
+  "dependencies": {
+    "@repo/db": "*",
+    "@repo/openapi-spec": "*",
+    "dotenv-extended": "^2.9.0",
+    "dotenv-parse-variables": "^2.0.0",
+    "express": "^5.0.1",
+    "jsend": "^1.1.0"
+  },
+  "devDependencies": {
+    "@repo/eslint-config": "*",
+    "@types/dotenv-parse-variables": "^2.0.3",
+    "@types/express": "^5.0.0",
+    "@types/jsend": "^1.0.32",
+    "@types/node": "^22.13.9",
+    "cross-env": "^7.0.3",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2"
+  }
+}
