@@ -258,6 +258,9 @@ components:
     uuid:
       type: string
       format: uuid
+    image:
+      type: string
+      description: The path to where the image can be retrieved
     createdAt:
       type: string
       format: date-time
@@ -275,6 +278,8 @@ components:
           type: string
         username:
           type: string
+        image:
+          $ref: '#/components/schemas/image'
         createdAt:
           $ref: '#/components/schemas/createdAt'
         updatedAt:
@@ -283,11 +288,9 @@ components:
         - id
         - name
         - username
+        - image
         - createdAt
         - updatedAt
-    image:
-      type: string
-      description: The path to where the image can be retrieved
     cloud:
       type: object
       properties:
