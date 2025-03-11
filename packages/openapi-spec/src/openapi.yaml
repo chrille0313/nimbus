@@ -287,6 +287,7 @@ components:
         - updatedAt
     image:
       type: string
+      description: The path to where the image can be retrieved
     cloud:
       type: object
       properties:
