@@ -3,6 +3,7 @@ import jsend from 'jsend';
 import * as OpenApiValidator from 'express-openapi-validator';
 import { Express } from 'express-serve-static-core';
 import { connector, summarise, Controllers } from 'swagger-routes-express';
+import { apiReference } from '@scalar/express-api-reference';
 import { APISpec } from '@repo/openapi-spec';
 
 export async function createServer(
@@ -15,6 +16,18 @@ export async function createServer(
 
   // Add jsend response formatting
   server.use(jsend.middleware);
+
+  // Serve API documentation
+  server.use(
+    '/api/v1/reference',
+    apiReference({
+      spec: {
+        url: '/api/v1/specification'
+      },
+      darkMode: true,
+      theme: 'deepSpace'
+    })
+  );
 
   // Specify what type of request bodies the server can parse
   server.use(express.urlencoded({ extended: false }));
