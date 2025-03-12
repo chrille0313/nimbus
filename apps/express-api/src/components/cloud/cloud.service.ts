@@ -74,6 +74,25 @@ export class CloudService {
     });
   }
 
+  async updateCloudById(
+    cloudData: Pick<Cloud, 'id' | 'name' | 'image' | 'allocatedStorage'>,
+    requestingUserId: string
+  ): Promise<Cloud> {
+    const { id, ...data } = cloudData;
+
+    return prisma.cloud.update({
+      where: {
+        id,
+        ownerId: requestingUserId
+      },
+      data,
+      include: {
+        owner: true,
+        sharedWith: true
+      }
+    });
+  }
+
   async deleteCloudById(cloudId: string, requestingUserId: string): Promise<void> {
     await prisma.cloud.delete({
       where: {

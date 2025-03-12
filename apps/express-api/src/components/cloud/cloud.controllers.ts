@@ -37,6 +37,26 @@ export async function createCloud(req: express.Request, res: express.Response) {
   res.status(201).jsend.success(createdCloud);
 }
 
+export async function updateCloud(req: express.Request, res: express.Response) {
+  const requestDTO = dtoFactory.update(req);
+
+  if (!requestDTO.id) {
+    throw new NotFoundError();
+  }
+
+  const authenticatedUser = req.context.user;
+
+  const cloud = await cloudService.getCloudById(requestDTO.id, authenticatedUser.id);
+
+  if (!cloud) {
+    throw new NotFoundError();
+  }
+
+  const updatedCloud = await cloudService.updateCloudById(requestDTO, authenticatedUser.id);
+
+  res.jsend.success(updatedCloud);
+}
+
 export async function deleteCloud(req: express.Request, res: express.Response) {
   const requestDTO = dtoFactory.delete(req);
 
