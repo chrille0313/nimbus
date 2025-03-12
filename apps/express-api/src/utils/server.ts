@@ -62,7 +62,7 @@ export async function createServer(
         removeAdditional: 'all'
       },
       validateResponses: {
-        // removeAdditional: 'all'
+        // removeAdditional: 'all'  // TODO: Remove additional in production to avoid leaking information
       },
       validateApiSpec: true
     })
