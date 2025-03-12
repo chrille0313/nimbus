@@ -14,7 +14,7 @@
     "build": "npm run generate-types && tsc && npm run copy-spec",
     "lint": "npm run lint:code && npm run lint:specification",
     "lint:code": "eslint .",
-    "lint:specification": "npx @scalar/cli validate src/openapi.yaml",
+    "lint:specification": "npx @redocly/cli lint src/openapi.yaml",
     "copy-spec": "cpx src/openapi.yaml dist/",
     "generate-types": "openapi-typescript src/openapi.yaml -o src/openapi.d.ts"
   },
