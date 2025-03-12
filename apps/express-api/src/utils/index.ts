@@ -7,7 +7,7 @@
  * @param parts - An array containing strings representing keys.
  * @returns A nested object structure based on the input array.
  */
-export function arrayToObject(parts: string[], data: any): object {
+export function arrayToObject(parts: string[], data: object): object {
   return parts.reduceRight((acc, part) => {
     return { [part]: { ...acc } };
   }, data);
