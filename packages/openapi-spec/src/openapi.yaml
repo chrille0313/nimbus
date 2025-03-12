@@ -259,7 +259,9 @@ components:
       type: string
       format: uuid
     image:
-      type: string
+      oneOf:
+        - type: string
+        - type: 'null'
       description: The path to where the image can be retrieved
     createdAt:
       type: string
