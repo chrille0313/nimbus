@@ -13,10 +13,10 @@
     "prepare": "husky",
     "dev": "turbo dev",
     "build": "turbo build",
-    "lint": "turbo lint",
+    "lint": "turbo lint && npm run lint:styles",
     "ling:code": "turbo lint:code",
     "lint:styles": "prettier . --check",
-    "lint:fix": "turbo lint:fix",
+    "lint:fix": "turbo lint:fix && npm run lint:styles:fix",
     "lint:code:fix": "turbo lint:code:fix",
     "lint:styles:fix": "prettier . --write"
   },
