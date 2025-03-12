@@ -3,11 +3,13 @@
   "tasks": {
     "dev": {
       "persistent": true,
-      "cache": false
+      "cache": false,
+      "env": ["ENV_FILE"]
     },
     "build": {
       "dependsOn": ["^build"],
-      "outputs": [".next/**", "!.next/cache/**", "dist/**"]
+      "outputs": [".next/**", "!.next/cache/**", "dist/**"],
+      "env": ["ENV_FILE"]
     },
     "lint": {
       "dependsOn": ["lint:code", "lint:styles"]
