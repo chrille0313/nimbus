@@ -34,22 +34,6 @@ export class CloudService {
     });
   }
 
-  async createCloud(
-    cloudData: Pick<Cloud, 'name' | 'allocatedStorage'>,
-    requestingUserId: string
-  ): Promise<Cloud & { owner: User; sharedWith: User[] }> {
-    return prisma.cloud.create({
-      data: {
-        ...cloudData,
-        ownerId: requestingUserId
-      },
-      include: {
-        owner: true,
-        sharedWith: true
-      }
-    });
-  }
-
   async getCloudById(cloudId: string, requestingUserId: string): Promise<Cloud | null> {
     return prisma.cloud.findFirst({
       where: {
@@ -66,6 +50,26 @@ export class CloudService {
             }
           }
         ]
+      },
+      include: {
+        owner: true,
+        sharedWith: true
+      }
+    });
+  }
+
+  async createCloud(
+    cloudData: Pick<Cloud, 'name' | 'allocatedStorage'>,
+    requestingUserId: string
+  ): Promise<Cloud & { owner: User; sharedWith: User[] }> {
+    return prisma.cloud.create({
+      data: {
+        ...cloudData,
+        ownerId: requestingUserId
+      },
+      include: {
+        owner: true,
+        sharedWith: true
       }
     });
   }
