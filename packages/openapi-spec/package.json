@@ -10,13 +10,12 @@
     "import": "./dist/index.js"
   },
   "scripts": {
-    "dev": "tsc-watch --onSuccess \"npm run generate-types\"",
-    "build": "npm run clean && npm run generate-types && tsc && npm run copy-spec",
+    "dev": "chokidar \"./src/openapi.yaml\" \"./src/index.ts\" -c \"npm run build\" --initial",
+    "build": "npm run generate-types && tsc && npm run copy-spec",
     "lint": "npm run lint:code && npm run lint:specification",
     "lint:code": "eslint .",
     "lint:specification": "npx @scalar/cli validate src/openapi.yaml",
     "copy-spec": "cpx src/openapi.yaml dist/",
-    "clean": "rimraf dist",
     "generate-types": "openapi-typescript src/openapi.yaml -o src/openapi.d.ts"
   },
   "dependencies": {
@@ -27,10 +26,10 @@
     "@repo/typescript-config": "*",
     "@types/node": "^22.13.10",
     "@types/yamljs": "^0.2.34",
+    "chokidar-cli": "^3.0.0",
     "cpx": "^1.5.0",
     "openapi-typescript": "^7.6.1",
     "rimraf": "^6.0.1",
-    "tsc-watch": "^6.2.1",
     "typescript": "^5.8.2"
   }
 }
