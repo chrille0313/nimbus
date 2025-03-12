@@ -57,7 +57,7 @@ export async function createServer(
   // Add request and response validation from the OpenAPI specification
   server.use(
     OpenApiValidator.middleware({
-      apiSpec: openAPISpec as any, // FIXME: Don't use any
+      apiSpec: openAPISpec, // FIXME: Use correct type
       validateRequests: {
         removeAdditional: 'all'
       },
