@@ -16,9 +16,7 @@
     "start": "cross-env ENV_FILE=./config/.env.prod tsx dist/app.js",
     "dev": "cross-env ENV_FILE=./config/.env.dev tsx watch src/app.ts",
     "lint:code": "eslint .",
-    "lint:code:fix": "eslint . --fix",
-    "lint:styles": "prettier . --check",
-    "lint:styles:fix": "prettier . --write"
+    "lint:code:fix": "eslint . --fix"
   },
   "dependencies": {
     "@prisma/client": "^6.4.1",

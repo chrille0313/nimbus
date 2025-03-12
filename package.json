@@ -15,10 +15,10 @@
     "build": "turbo build",
     "lint": "turbo lint",
     "ling:code": "turbo lint:code",
-    "lint:styles": "turbo lint:styles",
+    "lint:styles": "prettier . --check",
     "lint:fix": "turbo lint:fix",
     "lint:code:fix": "turbo lint:code:fix",
-    "lint:styles:fix": "turbo lint:styles:fix"
+    "lint:styles:fix": "prettier . --write"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.6.0",

@@ -10,22 +10,12 @@
       "outputs": [".next/**", "!.next/cache/**", "dist/**"]
     },
     "lint": {
-      "dependsOn": ["^lint", "lint:code", "lint:styles"]
+      "dependsOn": ["lint:code"]
     },
-    "lint:code": {
-      "dependsOn": ["^lint:code"]
-    },
-    "lint:styles": {
-      "dependsOn": ["^lint:styles"]
-    },
+    "lint:code": {},
     "lint:fix": {
-      "dependsOn": ["^lint:fix", "lint:code:fix", "lint:styles:fix"]
+      "dependsOn": ["lint:code:fix"]
     },
-    "lint:code:fix": {
-      "dependsOn": ["^lint:code:fix"]
-    },
-    "lint:styles:fix": {
-      "dependsOn": ["^lint:styles:fix"]
-    }
+    "lint:code:fix": {}
   }
 }
