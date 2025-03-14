@@ -1,5 +1,5 @@
 import { AppSidebar } from '@/components/navigation/app-sidebar';
-import { CurrentPathBreadcrumb } from '@/components/current-path-breadcrumb';
+import { CurrentPathBreadcrumb } from '@/components/navigation/current-path-breadcrumb';
 import { Separator } from '@repo/ui/components/separator';
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@repo/ui/components/sidebar';
 
