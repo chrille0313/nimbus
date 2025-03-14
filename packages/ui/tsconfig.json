@@ -3,9 +3,9 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@workspace/ui/*": ["./src/*"]
+      "@repo/ui/*": ["./src/*"]
     }
   },
-  "include": ["."],
+  "include": [".", "src/hooks/use-mobile.ts"],
   "exclude": ["node_modules", "dist"]
 }
