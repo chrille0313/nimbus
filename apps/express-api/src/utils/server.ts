@@ -15,6 +15,7 @@ import { APISpec } from '@repo/openapi-spec';
 import { betterAuthErrorAdapter } from '../middleware/errorAdapters/better-auth';
 import { eoaValidatorErrorAdapter } from '../middleware/errorAdapters/express-openapi-validator';
 import { nativeErrorAdapter } from '../middleware/errorAdapters/native';
+import cors from 'cors';
 
 export async function createServer(
   controllers: Controllers,
@@ -30,6 +31,8 @@ export async function createServer(
 
   // Add jsend response formatting
   server.use(jsend.middleware);
+
+  server.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 
   // Add auth handling (needs to be before express.json() middleware)
   server.all('/api/v1/auth/*splat', toNodeHandler(auth));
@@ -59,7 +62,7 @@ export async function createServer(
     OpenApiValidator.middleware({
       apiSpec: openAPISpec, // FIXME: Use correct type
       validateRequests: {
-        removeAdditional: 'all'
+        // removeAdditional: 'all'
       },
       validateResponses: {
         // removeAdditional: 'all'  // TODO: Remove additional in production to avoid leaking information

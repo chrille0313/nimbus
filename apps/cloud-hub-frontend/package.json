@@ -20,6 +20,7 @@
     "@radix-ui/react-slot": "^1.1.2",
     "@radix-ui/react-tooltip": "^1.1.8",
     "@repo/ui": "*",
+    "better-auth": "^1.2.4",
     "class-variance-authority": "^0.7.1",
     "lucide-react": "^0.479.0",
     "next": "15.2.2",
