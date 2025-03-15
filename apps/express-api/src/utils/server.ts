@@ -35,16 +35,16 @@ export async function createServer(
   server.all('/api/v1/auth/*splat', toNodeHandler(auth));
 
   // Serve API documentation
-  server.use(
-    '/api/v1/reference',
-    apiReference({
-      spec: {
-        url: '/api/v1/specification'
-      },
-      darkMode: true,
-      theme: 'deepSpace'
-    })
-  );
+  // server.use(
+  //   '/api/v1/reference',
+  //   apiReference({
+  //     spec: {
+  //       url: '/api/v1/specification'
+  //     },
+  //     darkMode: true,
+  //     theme: 'deepSpace'
+  //   })
+  // );
 
   // Specify what type of request bodies the server can parse
   server.use(express.urlencoded({ extended: false }));
@@ -57,7 +57,7 @@ export async function createServer(
   // Add request and response validation from the OpenAPI specification
   server.use(
     OpenApiValidator.middleware({
-      apiSpec: openAPISpec, // FIXME: Use correct type
+      apiSpec: openAPISpec as any, // FIXME: Use correct type
       validateRequests: {
         removeAdditional: 'all'
       },

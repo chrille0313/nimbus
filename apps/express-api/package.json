@@ -16,7 +16,11 @@
     "start": "cross-env ENV_FILE=./config/.env.prod tsx dist/app.js",
     "dev": "cross-env ENV_FILE=./config/.env.dev tsx watch src/app.ts",
     "lint:code": "eslint .",
-    "lint:code:fix": "eslint . --fix"
+    "lint:code:fix": "eslint . --fix",
+    "build": "tsc",
+    "docker:up": "docker compose up -d",
+    "docker:down": "docker compose down",
+    "test": "jest"
   },
   "dependencies": {
     "@prisma/client": "^6.4.1",
@@ -44,8 +48,12 @@
     "@types/morgan": "^1.9.9",
     "@types/node": "^22.13.9",
     "@types/validator": "^13.12.2",
+    "axios": "^1.8.3",
     "cross-env": "^7.0.3",
+    "docker": "^1.0.0",
+    "docker-compose": "^1.2.0",
     "prisma": "^6.4.1",
+    "ts-node": "^10.9.2",
     "tsx": "^4.19.3",
     "typescript": "^5.8.2"
   }

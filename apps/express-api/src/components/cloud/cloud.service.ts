@@ -1,5 +1,5 @@
-import prisma from '@repo/db';
-import { Cloud, User } from '@prisma/client';
+import prisma from '@repo/database';
+import { Cloud, User } from '@repo/database';
 
 export class CloudService {
   async getOwnedClouds(

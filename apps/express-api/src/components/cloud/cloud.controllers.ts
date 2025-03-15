@@ -40,7 +40,7 @@ export async function createCloud(req: express.Request, res: express.Response) {
 export async function updateCloud(req: express.Request, res: express.Response) {
   const requestDTO = dtoFactory.update(req);
 
-  if (!requestDTO.id) {
+  if (requestDTO.id === undefined) {
     throw new NotFoundError();
   }
 
@@ -52,7 +52,7 @@ export async function updateCloud(req: express.Request, res: express.Response) {
     throw new NotFoundError();
   }
 
-  const updatedCloud = await cloudService.updateCloudById(requestDTO, authenticatedUser.id);
+  const updatedCloud = await cloudService.updateCloudById({...requestDTO, id:requestDTO.id, }, authenticatedUser.id);
 
   res.jsend.success(updatedCloud);
 }
