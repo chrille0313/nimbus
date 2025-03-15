@@ -4,7 +4,7 @@ import { RegisterForm } from '@/components/auth/register-form';
 import Image from 'next/image';
 import RegisterSideImage from '@/../public/images/space-sky.jpg';
 
-export default function RegisterPage() {
+export default function SignUpPage() {
   return (
     <div className="grid min-h-svh lg:grid-cols-2">
       <div className="flex flex-col gap-4 p-6 md:p-10">

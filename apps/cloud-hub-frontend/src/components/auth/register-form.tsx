@@ -181,7 +181,7 @@ export function RegisterForm({ className, ...props }: React.ComponentProps<'form
           </div>
           <div className="text-center text-sm">
             Already have an account?{' '}
-            <Link href="/auth/login" className="underline underline-offset-4">
+            <Link href="/auth/sign-in" className="underline underline-offset-4">
               Sign in
             </Link>
           </div>

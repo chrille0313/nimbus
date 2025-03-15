@@ -5,7 +5,7 @@ import { Loader2, LogOut } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-export default function LogoutPage() {
+export default function SignOutPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
@@ -19,7 +19,7 @@ export default function LogoutPage() {
           setLoading(true);
         },
         onSuccess: () => {
-          router.push('/auth/login');
+          router.push('/auth/sign-in');
         }
       }
     });

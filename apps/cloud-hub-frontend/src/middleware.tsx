@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSessionCookie } from 'better-auth/cookies';
 
-const protectedRoutes = ['^/clouds/*', '^/dashboard/*', '^/shared/*', '^/auth/logout/*'];
-const protectedRoutesWhenAuthenticated = ['^/auth/login/*', '^/auth/register/*'];
+const protectedRoutes = ['^/clouds/*', '^/dashboard/*', '^/shared/*', '^/auth/sign-out/*'];
+const protectedRoutesWhenAuthenticated = ['^/auth/sign-in/*', '^/auth/sign-up/*'];
 
 export async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
@@ -14,7 +14,7 @@ export async function middleware(request: NextRequest) {
   const sessionCookie = getSessionCookie(request);
 
   if (isProtected && !sessionCookie) {
-    return NextResponse.redirect(new URL('/auth/login', request.url));
+    return NextResponse.redirect(new URL('/auth/sign-in', request.url));
   }
 
   if (isAuthProtected && sessionCookie) {
