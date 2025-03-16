@@ -39,7 +39,7 @@ const testCloudOwner: Cloud & { owner: User; sharedWith: User[] } = {
   owner: testUser,
   sharedWith: []
 };
-const cloudService = new CloudService();
+const cloudService = new CloudService(prisma);
 // ~~~~~~~~~~~~~~~~~~~~ //
 // ~    Unit Tests    ~ //
 // ~~~~~~~~~~~~~~~~~~~~ //
@@ -47,12 +47,12 @@ const cloudService = new CloudService();
 vi.mock('../src/lib/prisma');
 
 test('getClouds should return users clouds ', async () => {
-  prisma.cloud.findMany.mockResolvedValue(testCloudOwner);
+  prisma.cloud.findMany.mockResolvedValue([testCloudOwner]);
 
   const clouds = await cloudService.getOwnedClouds(testUser.id);
-
+  console.log(testCloudOwner);
   console.log('/%¤(/"#("%/#"¤/(#(#"/#"¤#"(/))))) ', clouds);
-  expect(testCloudOwner).toBeOneOf(clouds);
+  expect(testCloudOwner).toMatchObject(clouds);
 });
 
 /*
