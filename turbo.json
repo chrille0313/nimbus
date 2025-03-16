@@ -7,7 +7,10 @@
       "dependsOn": ["^build"],
       "env": ["ENV_FILE"]
     },
-    "test": {},
+    "test": {
+      "dependsOn": ["transit", "@repo/vitest-config#build"],
+      "outputs": ["coverage.json"]
+    },
     "build": {
       "dependsOn": ["^build"],
       "outputs": [".next/**", "!.next/cache/**", "dist/**"],
@@ -36,6 +39,9 @@
     },
     "//#lint:styles:fix": {
       "dependsOn": []
+    },
+    "transit": {
+      "dependsOn": ["^transit"]
     }
   }
 }

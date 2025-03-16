@@ -1,5 +1,13 @@
 import axios from 'axios';
 import prisma from '@repo/database';
+import { test, describe, expect } from 'vitest';
+import { createServer } from '../src/utils/server';
+import express from 'express';
+import * as api from '../src/controllers';
+import OpenAPISpecification from '@repo/openapi-spec';
+import config from '../src/config';
+import request, { AgentOptions } from 'supertest';
+import { beforeAll } from 'vitest';
 
 // ~~~~~~~~~~~~~~~~~~~~~ //
 // ~   Initialize DB   ~ //
@@ -45,6 +53,7 @@ beforeAll(async () => {
   })
   console.log('✨ 1 cloud successfully created!')
 })
+/*
 
 // ~~~~~~~~~~~~~~~~~~~~~~ //
 // ~      Clean DB      ~ //
@@ -73,13 +82,68 @@ afterAll(async () => {
 // ~     E2E Tests     ~ //
 // ~~~~~~~~~~~~~~~~~~~~~ //
 
-const API_URL = 'http://localhost:9000/api/v1/clouds';
+//const testApi = axios.create({
+//  baseURL: `http://${config.hostname}:${config.port}${config.apiBaseUrl}`,
+//  timeout: 2000
+//});
 
-describe('E2E Tests: GET Request, Get All Clouds', () => {
-  test('GET request for all clouds with correct arguments should yield correct response', async () => {
-    await axios.get(API_URL).then((response) => {
-      expect(response.status).toEqual(200);
+//await app.get("/", (req, res) => {
+//res.status(200).send('Hey, You are in my backend!!!');
+//});
+
+const params = {
+  email: 'test@user.com',
+  password: 'testUser'
+};
+
+const options: RequestInit = {
+  method: 'POST',
+  body: JSON.stringify(params),
+  headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+    Authorization: 'Bearer {token}'
+  },
+  credentials: 'include'
+};
+
+const options2: RequestInit = {
+  headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+    Authorization: 'Bearer GPq307M0OYrADbDllNo7oi0gFizUQRfw' // Replace with actual token
+  },
+  credentials: 'include'
+};
+
+describe('E2E Tests: GET /clouds', async () => {
+  // Create server and ensure it's ready
+  const app = await createServer(api, OpenAPISpecification);
+  await new Promise<void>((resolve) => {
+    app.listen(config.port, config.hostname, () => {
+      console.log(`Server is running at http://${config.hostname}:${config.port}`);
+      resolve();
     });
+  });
+
+  test('GET /clouds with correct arguments should yield correct response', async () => {
+    const response2 = await request(app)
+      .post(`/auth/sign-in/email`)
+      .set('Cookie', ['myApp-token=testToken', 'myApp-other=test']);
+    console.log(response2.headers);
+
+    const response = await request(
+      `http://${config.hostname}:${config.port}${config.apiBaseUrl}/clouds`
+    );
+    console.log(response);
+    expect(200);
+
+    //testApi.get('/clouds').then((response) => {
+    //  expect(response.status).toEqual(200);
+    //});
+    //axios.get(API_URL).then((response) => {
+    //  expect(response.status).toEqual(200);
+    //});
     //app.get(API_URL)
     //.then((response: { status: any; }) => {
     //  expect(response.status).toEqual(200)

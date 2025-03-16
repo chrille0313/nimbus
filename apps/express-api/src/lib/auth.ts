@@ -14,7 +14,7 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true
   },
-  plugins: [username(), openAPI()]
+  plugins: [username(), openAPI()],
 });
 
 export type SessionContext = typeof auth.$Infer.Session;

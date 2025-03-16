@@ -15,6 +15,7 @@ import { APISpec } from '@repo/openapi-spec';
 import { betterAuthErrorAdapter } from '../middleware/errorAdapters/better-auth';
 import { eoaValidatorErrorAdapter } from '../middleware/errorAdapters/express-openapi-validator';
 import { nativeErrorAdapter } from '../middleware/errorAdapters/native';
+import cors from 'cors';
 
 export async function createServer(
   controllers: Controllers,
@@ -30,21 +31,22 @@ export async function createServer(
 
   // Add jsend response formatting
   server.use(jsend.middleware);
+  server.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 
   // Add auth handling (needs to be before express.json() middleware)
   server.all('/api/v1/auth/*splat', toNodeHandler(auth));
 
   // Serve API documentation
-  // server.use(
-  //   '/api/v1/reference',
-  //   apiReference({
-  //     spec: {
-  //       url: '/api/v1/specification'
-  //     },
-  //     darkMode: true,
-  //     theme: 'deepSpace'
-  //   })
-  // );
+  server.use(
+    '/api/v1/reference',
+    apiReference({
+      spec: {
+        url: '/api/v1/specification'
+      },
+      darkMode: true,
+      theme: 'deepSpace'
+    })
+  );
 
   // Specify what type of request bodies the server can parse
   server.use(express.urlencoded({ extended: false }));

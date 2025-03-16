@@ -15,12 +15,12 @@
   "scripts": {
     "start": "cross-env ENV_FILE=./config/.env.prod tsx dist/app.js",
     "dev": "cross-env ENV_FILE=./config/.env.dev tsx watch src/app.ts",
+    "test": "cross-env ENV_FILE=./config/.env.test vitest run",
     "lint:code": "eslint .",
     "lint:code:fix": "eslint . --fix",
-    "build": "tsc",
+    "build": "tsc -p tsconfig.build.json",
     "docker:up": "docker compose up -d",
-    "docker:down": "docker compose down",
-    "test": "jest"
+    "docker:down": "docker compose down"
   },
   "dependencies": {
     "@prisma/client": "^6.4.1",
@@ -41,20 +41,25 @@
   },
   "devDependencies": {
     "@repo/eslint-config": "*",
+    "@repo/vitest-config": "*",
     "@types/dotenv-parse-variables": "^2.0.3",
     "@types/express": "^5.0.0",
     "@types/jsend": "^1.0.32",
     "@types/lodash": "^4.17.16",
     "@types/morgan": "^1.9.9",
     "@types/node": "^22.13.9",
+    "@types/supertest": "^6.0.2",
     "@types/validator": "^13.12.2",
     "axios": "^1.8.3",
     "cross-env": "^7.0.3",
     "docker": "^1.0.0",
     "docker-compose": "^1.2.0",
     "prisma": "^6.4.1",
+    "supertest": "^7.0.0",
     "ts-node": "^10.9.2",
     "tsx": "^4.19.3",
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.2",
+    "vitest": "^3.0.8",
+    "vitest-mock-extended": "^3.0.1"
   }
 }
