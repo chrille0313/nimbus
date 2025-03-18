@@ -65,7 +65,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
               });
               break;
             default:
-              setError(ctx.error.message);
+              setError(ctx.error.message ?? ctx.error.statusText);
           }
         }
       }

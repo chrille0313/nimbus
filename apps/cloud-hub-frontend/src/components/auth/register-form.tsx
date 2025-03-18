@@ -113,7 +113,7 @@ export function RegisterForm({ className, ...props }: React.ComponentProps<'form
               });
               break;
             default:
-              setError(ctx.error.message);
+              setError(ctx.error.message ?? ctx.error.statusText);
           }
         }
       }
