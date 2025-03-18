@@ -1,5 +1,3 @@
-'use client';
-
 import { LogOut } from 'lucide-react';
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@repo/ui/components/sidebar';
 import Link from 'next/link';
