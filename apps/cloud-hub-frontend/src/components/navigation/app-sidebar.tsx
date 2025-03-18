@@ -1,5 +1,3 @@
-'use client';
-
 import * as React from 'react';
 import { Users, Cloudy as Clouds, LayoutDashboard } from 'lucide-react';
 
@@ -16,27 +14,22 @@ import { NavLogout } from '@/components/navigation/nav-logout';
 import { SearchForm } from '@/components/search-form';
 
 const data = {
-  user: {
-    name: 'Robin Adams',
-    email: 'robin.adams@gmail.com',
-    avatar: '/avatars/shadcn.jpg'
-  },
   navMain: [
     {
       title: 'Dashboard',
       url: '/dashboard',
-      icon: LayoutDashboard,
+      icon: <LayoutDashboard />,
       isActive: true
     },
     {
       title: 'My Clouds',
       url: '/clouds',
-      icon: Clouds
+      icon: <Clouds />
     },
     {
       title: 'Shared',
       url: '/shared',
-      icon: Users
+      icon: <Users />
     }
   ]
 };
@@ -47,7 +40,7 @@ export function AppSidebar({ ...props }: AppSidebarProps) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <NavUser user={data.user} />
+        <NavUser />
         <SearchForm />
       </SidebarHeader>
       <SidebarContent>

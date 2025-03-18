@@ -1,33 +1,20 @@
-import { BadgeCheck, Bell, ChevronsUpDown, CreditCard, LogOut } from 'lucide-react';
-
-import { Avatar, AvatarFallback, AvatarImage } from '@repo/ui/components/avatar';
+import { BadgeCheck, Bell, ChevronsUpDown, CreditCard, LogOut, Settings } from 'lucide-react';
 import {
   DropdownMenu,
-  DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '@repo/ui/components/dropdown-menu';
-import {
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  useSidebar
-} from '@repo/ui/components/sidebar';
+import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@repo/ui/components/sidebar';
+import { NavUserDropdownContent } from './nav-user-dropdown-content';
+import { MenuUserContent } from './menu-user-content';
+import { Suspense } from 'react';
+import { MenuUserSkeleton } from './menu-user-skeleton';
+import Link from 'next/link';
 
-export interface NavUserProps {
-  user: {
-    name: string;
-    email: string;
-    avatar: string;
-  };
-}
-
-export function NavUser({ user }: NavUserProps) {
-  const { isMobile } = useSidebar();
-
+export function NavUser() {
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -37,56 +24,55 @@ export function NavUser({ user }: NavUserProps) {
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
-              <Avatar className="h-8 w-8 rounded-lg">
-                <AvatarImage src={user.avatar} alt={user.name} />
-                <AvatarFallback className="rounded-lg">CN</AvatarFallback>
-              </Avatar>
-              <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">{user.name}</span>
-                <span className="truncate text-xs">{user.email}</span>
-              </div>
+              <Suspense fallback={<MenuUserSkeleton />}>
+                <MenuUserContent />
+              </Suspense>
               <ChevronsUpDown className="ml-auto size-4" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
-          <DropdownMenuContent
-            className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
-            side={isMobile ? 'bottom' : 'right'}
-            align="end"
-            sideOffset={4}
-          >
+          <NavUserDropdownContent>
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage src={user.avatar} alt={user.name} />
-                  <AvatarFallback className="rounded-lg">CN</AvatarFallback>
-                </Avatar>
-                <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">{user.name}</span>
-                  <span className="truncate text-xs">{user.email}</span>
-                </div>
+                <Suspense fallback={<MenuUserSkeleton />}>
+                  <MenuUserContent />
+                </Suspense>
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <BadgeCheck />
-                Account
+              <DropdownMenuItem asChild>
+                <Link href="#">
+                  <BadgeCheck />
+                  Account
+                </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem>
-                <CreditCard />
-                Billing
+              <DropdownMenuItem asChild>
+                <Link href="#">
+                  <CreditCard />
+                  Billing
+                </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Bell />
-                Notifications
+              <DropdownMenuItem asChild>
+                <Link href="#">
+                  <Bell />
+                  Notifications
+                </Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <LogOut />
-              Log out
+            <DropdownMenuItem asChild>
+              <Link href="#">
+                <Settings />
+                Settings
+              </Link>
             </DropdownMenuItem>
-          </DropdownMenuContent>
+            <DropdownMenuItem asChild>
+              <Link href="/auth/sign-out">
+                <LogOut />
+                Log out
+              </Link>
+            </DropdownMenuItem>
+          </NavUserDropdownContent>
         </DropdownMenu>
       </SidebarMenuItem>
     </SidebarMenu>
