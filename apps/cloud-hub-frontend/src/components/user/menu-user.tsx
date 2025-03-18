@@ -8,13 +8,13 @@ import {
   DropdownMenuTrigger
 } from '@repo/ui/components/dropdown-menu';
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@repo/ui/components/sidebar';
-import { NavUserDropdownContent } from './nav-user-dropdown-content';
-import { MenuUserContent } from './menu-user-content';
+import { NavUserDropdownContent } from '@/components/navigation/nav-user-dropdown-content';
+import { MenuUserContent } from '@/components/user/menu-user-content';
 import { Suspense } from 'react';
-import { MenuUserSkeleton } from './menu-user-skeleton';
+import { MenuUserSkeleton } from '@/components/user/menu-user-skeleton';
 import Link from 'next/link';
 
-export function NavUser() {
+export function MenuUser() {
   return (
     <SidebarMenu>
       <SidebarMenuItem>

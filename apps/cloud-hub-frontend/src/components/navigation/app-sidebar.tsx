@@ -9,7 +9,7 @@ import {
   SidebarRail
 } from '@repo/ui/components/sidebar';
 import { NavStorage } from '@/components/navigation/nav-storage';
-import { NavUser } from '@/components/navigation/nav-user';
+import { MenuUser } from '@/components/user/menu-user';
 import { NavLogout } from '@/components/navigation/nav-logout';
 import { SearchForm } from '@/components/search-form';
 
@@ -40,7 +40,7 @@ export function AppSidebar({ ...props }: AppSidebarProps) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <NavUser />
+        <MenuUser />
         <SearchForm />
       </SidebarHeader>
       <SidebarContent>
