@@ -14,6 +14,7 @@ import { SelectItem } from '@repo/ui/components/select';
 import { Alert, AlertDescription, AlertTitle } from '@repo/ui/components/alert';
 import { SelectField, ImageField, NumberField } from '@/components/forms/fields';
 import { unformatSI } from 'format-si-prefix';
+import * as API from '@repo/api-client';
 
 const formSchema = z.object({
   name: z.string().min(2),
@@ -40,11 +41,30 @@ export function CreateCloudForm({ className, ...props }: React.ComponentProps<'d
   });
 
   function onSubmit(values: FormSchema) {
-    values.allocatedStorage = unformatSI(
-      `${values.allocatedStorage}${values.allocatedStorageUnit[0]}`
-    );
-
     console.log(values);
+
+    setLoading(true);
+    setError(null);
+
+    API.createCloud(
+      {
+        name: values.name,
+        image: values.image,
+        allocatedStorage: unformatSI(`${values.allocatedStorage}${values.allocatedStorageUnit[0]}`)
+      },
+      {
+        withCredentials: true
+      }
+    )
+      .then(() => {
+        router.push('/clouds');
+      })
+      .catch((error) => {
+        setError(error.message);
+        setLoading(false);
+
+        console.error(error);
+      });
   }
 
   return (
