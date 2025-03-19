@@ -20,6 +20,7 @@
     "@radix-ui/react-separator": "^1.1.2",
     "@radix-ui/react-slot": "^1.1.2",
     "@radix-ui/react-tooltip": "^1.1.8",
+    "@repo/api-client": "^0.0.0",
     "@repo/ui": "*",
     "@types/parse-unit": "^1.0.3",
     "better-auth": "^1.2.4",
