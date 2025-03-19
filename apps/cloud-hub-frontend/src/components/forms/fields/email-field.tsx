@@ -1,5 +1,5 @@
 import { FieldValues, Path } from 'react-hook-form';
-import { InputField, InputFieldProps } from './field';
+import { InputField, InputFieldProps } from './input-field';
 
 type FieldType = FieldValues & { email: string };
 

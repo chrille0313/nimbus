@@ -1,3 +1,7 @@
+export * from './input-field';
+export * from './select-field';
+export * from './number-field';
+export * from './image-field';
 export * from './name-field';
 export * from './username-field';
 export * from './email-field';

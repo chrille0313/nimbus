@@ -12,10 +12,8 @@ import { Form } from '@repo/ui/components/form';
 import { Button } from '@repo/ui/components/button';
 import { SelectItem } from '@repo/ui/components/select';
 import { Alert, AlertDescription, AlertTitle } from '@repo/ui/components/alert';
-import { SelectField } from '@/components/forms/field';
+import { SelectField, ImageField, NumberField } from '@/components/forms/fields';
 import { unformatSI } from 'format-si-prefix';
-import { ImageField } from '@/components/forms/image-field';
-import { NumberField } from './number-field';
 
 const formSchema = z.object({
   name: z.string().min(2),
