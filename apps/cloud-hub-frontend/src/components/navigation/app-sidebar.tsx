@@ -12,6 +12,7 @@ import { NavStorage } from '@/components/navigation/nav-storage';
 import { MenuUser } from '@/components/user/menu-user';
 import { NavLogout } from '@/components/navigation/nav-logout';
 import { SearchForm } from '@/components/search-form';
+import { ColorModeToggle } from '@/components/color-mode-toggle';
 
 const data = {
   navMain: [
@@ -41,7 +42,10 @@ export function AppSidebar({ ...props }: AppSidebarProps) {
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
         <MenuUser />
-        <SearchForm />
+        <div className="flex gap-2 group-data-[collapsible=icon]:hidden">
+          <SearchForm />
+          <ColorModeToggle />
+        </div>
       </SidebarHeader>
       <SidebarContent>
         <NavStorage items={data.navMain} />
