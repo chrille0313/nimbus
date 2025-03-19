@@ -142,7 +142,7 @@ export function RegisterForm({ className, ...props }: React.ComponentProps<'form
             </p>
           </div>
           <div className="grid gap-4">
-            <NameField control={form.control} required />
+            <NameField control={form.control} placeholder="Full Name" required />
             <UsernameField control={form.control} placeholder="Choose a username" required />
             <EmailField control={form.control} required />
             <PasswordField control={form.control} required />

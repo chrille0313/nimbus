@@ -1,3 +1,4 @@
+import { Select, SelectContent, SelectTrigger, SelectValue } from '@repo/ui/components/select';
 import {
   FormControl,
   FormDescription,
@@ -7,37 +8,91 @@ import {
   FormMessage
 } from '@repo/ui/components/form';
 import { Input } from '@repo/ui/components/input';
-import { Control, FieldValues, Path } from 'react-hook-form';
+import { Control, FieldValues, Path, ControllerRenderProps } from 'react-hook-form';
 
-export interface InputFieldProps<T extends FieldValues> {
+interface BaseFieldProps<T extends FieldValues> {
   control: Control<T>;
   name: Path<T>;
-  type?: string;
   label?: string;
-  placeholder?: string;
   description?: string;
   required?: boolean;
   labelSlot?: React.ReactNode;
+  children: (field: ControllerRenderProps<T, Path<T>>) => React.ReactNode;
 }
 
-export function InputField<T extends FieldValues>(props: InputFieldProps<T>) {
+function BaseField<T extends FieldValues>({
+  control,
+  name,
+  label,
+  description,
+  required,
+  labelSlot,
+  children
+}: BaseFieldProps<T>) {
   return (
     <FormField
-      control={props.control}
-      name={props.name}
+      control={control}
+      name={name}
       render={({ field }) => (
         <FormItem>
           <div className="flex items-center">
-            <FormLabel>{`${props.label ?? props.name}${props.required ? ' *' : ''}`}</FormLabel>
-            {props.labelSlot}
+            <FormLabel>{`${label ?? name}${required ? ' *' : ''}`}</FormLabel>
+            {labelSlot}
           </div>
-          <FormControl>
-            <Input type={props.type ?? 'text'} placeholder={props.placeholder} {...field} />
-          </FormControl>
-          {props.description && <FormDescription>{props.description}</FormDescription>}
+          {children(field)}
+          {description && <FormDescription>{description}</FormDescription>}
           <FormMessage className="text-destructive-foreground" />
         </FormItem>
       )}
     />
+  );
+}
+
+export interface InputFieldProps<T extends FieldValues>
+  extends Omit<BaseFieldProps<T>, 'children'> {
+  type?: string;
+  placeholder?: string;
+}
+
+export function InputField<T extends FieldValues>({
+  type = 'text',
+  placeholder,
+  ...props
+}: InputFieldProps<T>) {
+  return (
+    <BaseField {...props}>
+      {(field) => (
+        <FormControl>
+          <Input type={type} placeholder={placeholder} {...field} />
+        </FormControl>
+      )}
+    </BaseField>
+  );
+}
+
+export interface SelectFieldProps<T extends FieldValues>
+  extends Omit<BaseFieldProps<T>, 'children'> {
+  placeholder?: string;
+  children: React.ReactNode;
+}
+
+export function SelectField<T extends FieldValues>({
+  children,
+  placeholder,
+  ...props
+}: SelectFieldProps<T>) {
+  return (
+    <BaseField {...props}>
+      {(field) => (
+        <Select onValueChange={field.onChange} defaultValue={field.value}>
+          <FormControl>
+            <SelectTrigger>
+              <SelectValue placeholder={placeholder} />
+            </SelectTrigger>
+          </FormControl>
+          <SelectContent>{children}</SelectContent>
+        </Select>
+      )}
+    </BaseField>
   );
 }
