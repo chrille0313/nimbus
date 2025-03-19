@@ -20,7 +20,7 @@ export function CloudCard(props: CloudCardProps) {
   return (
     <Card className="pt-0 overflow-hidden">
       <AspectRatio ratio={2} className="relative">
-        <Image src={PlaceholderImage} alt="Cloud Image" style={{ objectFit: 'cover' }} fill />
+        <Image src={PlaceholderImage} alt="Cloud Image" className="object-cover" fill />
       </AspectRatio>
       <CardHeader>
         <CardTitle>Cloud</CardTitle>
