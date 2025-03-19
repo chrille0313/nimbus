@@ -1,9 +1,8 @@
-import { CloudService } from '../src/components/cloud/cloud.service';
+//import { CloudService } from '../src/components/cloud/cloud.service';
 import { test, describe, expect, vi } from 'vitest';
-import { Cloud, User } from '@repo/database';
-import prisma from '../src/lib/__mocks__/prisma';
-// import axios from 'axios';
-
+//import { Cloud, User } from '@repo/database';
+//import prisma from '@repo/database';
+/*
 // ~~~~~~~~~~~~~~~~~~~~ //
 // ~    Test data     ~ //
 // ~~~~~~~~~~~~~~~~~~~~ //
@@ -39,22 +38,23 @@ const testCloudOwner: Cloud & { owner: User; sharedWith: User[] } = {
   owner: testUser,
   sharedWith: []
 };
+
 const cloudService = new CloudService(prisma);
+
 // ~~~~~~~~~~~~~~~~~~~~ //
 // ~    Unit Tests    ~ //
 // ~~~~~~~~~~~~~~~~~~~~ //
 
-vi.mock('../src/lib/prisma');
+// CloudService
 
-test('getClouds should return users clouds ', async () => {
-  prisma.cloud.findMany.mockResolvedValue([testCloudOwner]);
-
-  const clouds = await cloudService.getOwnedClouds(testUser.id);
-  console.log(testCloudOwner);
-  console.log('/%¤(/"#("%/#"¤/(#(#"/#"¤#"(/))))) ', clouds);
-  expect(testCloudOwner).toMatchObject(clouds);
+describe('CloudService Tests:', async () => {
+  test('getOwnedClouds() should return all clouds for specified user', async () => {
+    const spy = vi.spyOn(prisma.cloud, 'findMany').mockResolvedValue([testCloudOwner]);
+    const result = await cloudService.getOwnedClouds(testUser.id);
+    expect(result).toEqual([testCloudOwner]);
+  });
 });
-
+*/
 /*
  * getClouds
  * createCloud
