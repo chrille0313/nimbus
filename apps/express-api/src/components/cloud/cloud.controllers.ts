@@ -2,8 +2,9 @@ import * as express from 'express';
 import { NotFoundError } from '@/types/errors';
 import { CloudService } from './cloud.service';
 import { CloudDTOFactory } from './cloud.dto';
+import prisma from '@repo/database';
 
-const cloudService = new CloudService();
+const cloudService = new CloudService(prisma);
 const dtoFactory = new CloudDTOFactory();
 
 export async function getClouds(req: express.Request, res: express.Response) {
@@ -52,7 +53,10 @@ export async function updateCloud(req: express.Request, res: express.Response) {
     throw new NotFoundError();
   }
 
-  const updatedCloud = await cloudService.updateCloudById({...requestDTO, id:requestDTO.id, }, authenticatedUser.id);
+  const updatedCloud = await cloudService.updateCloudById(
+    { ...requestDTO, id: requestDTO.id },
+    authenticatedUser.id
+  );
 
   res.jsend.success(updatedCloud);
 }

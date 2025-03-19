@@ -1,7 +1,8 @@
 import { Cloud, User, PrismaClient } from '@repo/database';
 
 export class CloudService {
-  constructor(private persistance: PrismaClient) {}  
+  constructor(private persistance: PrismaClient) {}
+
   async getOwnedClouds(
     requestingUserId: string
   ): Promise<(Cloud & { owner: User; sharedWith: User[] })[]> {
