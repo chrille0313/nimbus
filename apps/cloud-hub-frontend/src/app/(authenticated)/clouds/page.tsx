@@ -1,4 +1,5 @@
 import { CloudCard } from '@/components/cards/cloud-card';
+import { CreateCloudCard } from '@/components/cards/create-cloud-card';
 import { requireSession } from '@/lib/utils';
 import { SidebarProvider } from '@repo/ui/components/sidebar';
 
@@ -9,6 +10,7 @@ export default async function CloudsPage() {
     <SidebarProvider>
       <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          <CreateCloudCard />
           <CloudCard />
           <CloudCard />
           <CloudCard />
