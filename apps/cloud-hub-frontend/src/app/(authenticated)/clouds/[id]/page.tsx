@@ -12,8 +12,6 @@ export default async function CloudPage({ params }: CloudPageProps) {
     headers: await headers()
   });
 
-  console.log(response);
-
   const cloud = response.data.data;
 
   if (!cloud) {
