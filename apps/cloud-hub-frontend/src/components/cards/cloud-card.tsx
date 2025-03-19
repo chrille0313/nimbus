@@ -19,8 +19,8 @@ export interface CloudCardProps {
   id: string;
   name: string;
   image?: string;
-  usedSize: number;
-  allocatedSize: number;
+  usedStorage: number;
+  allocatedStorage: number;
 }
 
 export function CloudCard(props: CloudCardProps) {
@@ -38,7 +38,7 @@ export function CloudCard(props: CloudCardProps) {
         <CardHeader>
           <CardTitle>{props.name}</CardTitle>
           <CardDescription>
-            {`${formatNumber(props.usedSize, 'B')} / ${formatNumber(props.allocatedSize, 'B')}`}
+            {`${formatNumber(props.usedStorage, 'B')} / ${formatNumber(props.allocatedStorage, 'B')}`}
           </CardDescription>
           <CardAction>
             <DropdownMenu>
