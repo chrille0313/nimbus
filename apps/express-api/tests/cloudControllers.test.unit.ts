@@ -1,5 +1,3 @@
-import { CloudService } from '../src/components/cloud/cloud.service';
-import { CloudDTOFactory } from '../src/components/cloud/cloud.dto';
 import { NotFoundError } from '../src/types/errors';
 import { createCloudControllers } from '../src/components/cloud/cloud.controllers';
 import { vi, describe, it, expect, beforeEach } from 'vitest';
@@ -10,8 +8,8 @@ vi.mock('../src/components/cloud/cloud.service');
 vi.mock('../src/components/cloud/cloud.dto');
 
 describe('Cloud Controllers', () => {
-    //Define functions to be mocked
-    const mockCloudService = {
+  //Define functions to be mocked
+  const mockCloudService = {
     getOwnedClouds: vi.fn(),
     getCloudById: vi.fn(),
     getSharedClouds: vi.fn(),
@@ -47,7 +45,7 @@ describe('Cloud Controllers', () => {
     it('should return clouds for authenticated user', async () => {
       const mockClouds = [{ id: '1', name: 'Test Cloud' }];
       req = {
-        context: { user: { id: '1' } } 
+        context: { user: { id: '1' } }
       } as unknown as Request;
 
       mockCloudService.getOwnedClouds.mockResolvedValue(mockClouds);
