@@ -54,7 +54,7 @@ export function CloudCard(props: CloudCardProps) {
                     Rename
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
-                    <Link href="#">
+                    <Link href={`/clouds/${props.id}/delete`}>
                       <Trash />
                       Delete
                     </Link>
