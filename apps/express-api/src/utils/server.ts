@@ -15,6 +15,8 @@ import { APISpec } from '@repo/openapi-spec';
 import { betterAuthErrorAdapter } from '../middleware/errorAdapters/better-auth';
 import { eoaValidatorErrorAdapter } from '../middleware/errorAdapters/express-openapi-validator';
 import { nativeErrorAdapter } from '../middleware/errorAdapters/native';
+import { notFoundErrorAdapter } from '@/middleware/errorAdapters/not-found';
+import '@/utils/big-int-extensions';
 import cors from 'cors';
 
 export async function createServer(
@@ -25,12 +27,20 @@ export async function createServer(
 
   const server = express();
 
+  // Make sure json can format BigInt
+  BigInt.prototype.toJSON = function () {
+    const int = Number.parseInt(this.toString());
+    return int ?? this.toString();
+  };
+
   // Add logging
   if (config.logToConsole) server.use(consoleLogs('dev'));
   if (config.logToFile) server.use(fileLogs(config.logFilePath));
 
   // Add jsend response formatting
   server.use(jsend.middleware);
+  server.use(cors({ origin: 'http://localhost:3000', credentials: true }));
+  // TODO: change to .env for url above
 
   server.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 
@@ -60,7 +70,7 @@ export async function createServer(
   // Add request and response validation from the OpenAPI specification
   server.use(
     OpenApiValidator.middleware({
-      apiSpec: openAPISpec, // FIXME: Use correct type
+      apiSpec: openAPISpec as any, // FIXME: Use correct type
       validateRequests: {
         // removeAdditional: 'all'
       },
@@ -82,7 +92,12 @@ export async function createServer(
 
   // Add error handlers
   server.use(
-    createErrorMiddleware(betterAuthErrorAdapter, eoaValidatorErrorAdapter, nativeErrorAdapter)
+    createErrorMiddleware(
+      betterAuthErrorAdapter,
+      eoaValidatorErrorAdapter,
+      nativeErrorAdapter,
+      notFoundErrorAdapter
+    )
   );
 
   return server;

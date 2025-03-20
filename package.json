@@ -13,6 +13,8 @@
     "prepare": "husky",
     "dev": "turbo dev",
     "build": "turbo build",
+    "test": "turbo test",
+    "view-report": "turbo view-report",
     "lint": "turbo lint && npm run lint:styles",
     "ling:code": "turbo lint:code",
     "lint:styles": "prettier . --check",
@@ -25,6 +27,10 @@
     "@commitlint/config-conventional": "^19.6.0",
     "husky": "^9.1.7",
     "prettier": "^3.5.3",
-    "turbo": "^2.4.4"
+    "turbo": "^2.4.4",
+    "typescript": "^5.8.2"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.5.0"
   }
 }

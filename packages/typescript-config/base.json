@@ -18,5 +18,10 @@
     "strict": true,
     "strictNullChecks": true,
     "target": "ES2022"
+    "allowJs": true
+  },
+  "ts-node": {
+    "esm": true,
+    "experimentalSpecifier": "node"
   }
 }

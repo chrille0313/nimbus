@@ -20,6 +20,13 @@ paths:
             application/json:
               schema:
                 type: object
+        '400':
+          $ref: '#/components/responses/bad_request'
+          example:
+            status: fail
+            data:
+              message: Bad Request
+              reason: Invalid or missing parameters
   /clouds:
     get:
       operationId: getClouds
@@ -54,8 +61,29 @@ paths:
                 required:
                   - status
                   - data
+              example:
+                status: success
+                data:
+                  - id: 123e4567-e89b-12d3-a456-426614174000
+                    name: My Cloud
+                    owner:
+                      id: 123e4567-e89b-12d3-a456-426614174000
+                      name: John Doe
+                      image: 'https://kappa.lol/BVcN2I'
+                      username: johndoe
+                      createdAt: '2022-01-01T00:00:00Z'
+                      updatedAt: '2022-01-01T00:00:00Z'
+                    image: 'https://kappa.lol/ClQMZ'
+                    allocatedStorage: 1073741824
+                    createdAt: '2022-01-01T00:00:00Z'
+                    updatedAt: '2022-01-01T00:00:00Z'
         '400':
           $ref: '#/components/responses/bad_request'
+          example:
+            status: fail
+            data:
+              message: Bad Request
+              reason: Invalid or missing parameters
         '401':
           $ref: '#/components/responses/unauthorized'
         '403':
@@ -102,8 +130,34 @@ paths:
                 required:
                   - status
                   - data
+              example:
+                status: success
+                data:
+                  id: 123e4567-e89b-12d3-a456-426614174000
+                  name: My Cloud
+                  owner:
+                    id: 123e4567-e89b-12d3-a456-426614174000
+                    name: John Doe
+                    username: johndoe
+                    image: 'https://kappa.lol/BVcN2I'
+                    createdAt: '2022-01-01T00:00:00Z'
+                    updatedAt: '2022-01-01T00:00:00Z'
+                  image: 'https://kappa.lol/ClQMZ'
+                  allocatedStorage: 1073741824
+                  createdAt: '2022-01-01T00:00:00Z'
+                  updatedAt: '2022-01-01T00:00:00Z'
         '400':
           $ref: '#/components/responses/bad_request'
+          example:
+            status: fail
+            data:
+              message: Bad Request
+              reason: Invalid or missing parameters
+              errors:
+                name:
+                  - 'name is required'
+                allocatedStorage:
+                  - 'allocatedStorage is required'
         '401':
           $ref: '#/components/responses/unauthorized'
         '403':
@@ -148,8 +202,32 @@ paths:
                 required:
                   - status
                   - data
+              example:
+                status: success
+                data:
+                  id: 123e4567-e89b-12d3-a456-426614174000
+                  name: My Cloud
+                  owner:
+                    id: 123e4567-e89b-12d3-a456-426614174000
+                    name: John Doe
+                    username: johndoe
+                    image: 'https://kappa.lol/BVcN2I'
+                    createdAt: '2022-01-01T00:00:00Z'
+                    updatedAt: '2022-01-01T00:00:00Z'
+                  image: 'https://kappa.lol/ClQMZ'
+                  allocatedStorage: 1073741824
+                  createdAt: '2022-01-01T00:00:00Z'
+                  updatedAt: '2022-01-01T00:00:00Z'
         '400':
           $ref: '#/components/responses/bad_request'
+          example:
+            status: fail
+            data:
+              message: Bad Request
+              reason: Invalid or missing parameters
+              errors:
+                id:
+                  - 'id is required'
         '401':
           $ref: '#/components/responses/unauthorized'
         '403':
@@ -204,8 +282,32 @@ paths:
                 required:
                   - status
                   - data
+              example:
+                status: success
+                data:
+                  id: 123e4567-e89b-12d3-a456-426614174000
+                  name: My Cloud
+                  owner:
+                    id: 123e4567-e89b-12d3-a456-426614174000
+                    name: John Doe
+                    username: johndoe
+                    image: 'https://kappa.lol/BVcN2I'
+                    createdAt: '2022-01-01T00:00:00Z'
+                    updatedAt: '2022-01-01T00:00:00Z'
+                  image: 'https://kappa.lol/ClQMZ'
+                  allocatedStorage: 1073741824
+                  createdAt: '2022-01-01T00:00:00Z'
+                  updatedAt: '2022-01-01T00:00:00Z'
         '400':
           $ref: '#/components/responses/bad_request'
+          example:
+            status: fail
+            data:
+              message: Bad Request
+              reason: Invalid or missing parameters
+              errors:
+                id:
+                  - 'id is required'
         '401':
           $ref: '#/components/responses/unauthorized'
         '403':
@@ -243,8 +345,19 @@ paths:
                 required:
                   - status
                   - data
+              example:
+                status: success
+                data: null
         '400':
           $ref: '#/components/responses/bad_request'
+          example:
+            status: fail
+            data:
+              message: Bad Request
+              reason: Invalid or missing parameters
+              errors:
+                id:
+                  - 'id is required'
         '401':
           $ref: '#/components/responses/unauthorized'
         '403':
@@ -374,6 +487,11 @@ components:
             required:
               - status
               - data
+          example:
+            status: fail
+            data:
+              message: Unauthorized access
+              reason: Invalid or missing authentication
     forbidden:
       description: Forbidden
       content:
@@ -402,6 +520,11 @@ components:
             required:
               - status
               - data
+          example:
+            status: fail
+            data:
+              message: Permission denied
+              reason: Authenticated user does not have permission to access this resource
     internal_server_error:
       description: Internal Server Error
       content:
@@ -424,6 +547,9 @@ components:
             required:
               - status
               - message
+          example:
+            status: error
+            message: An internal server error has occured
     not_found:
       description: Resource Not Found
       content:
@@ -452,3 +578,8 @@ components:
             required:
               - status
               - data
+          example:
+            status: fail
+            data:
+              message: Requested resource not found
+              reason: The requested resource does not exist

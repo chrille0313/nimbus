@@ -1,7 +1,8 @@
-import prisma from '@repo/db';
-import { Cloud, User } from '@prisma/client';
+import { Cloud, User, PrismaClient} from '@repo/database';
+import prisma from '../../lib/prisma';
 
 export class CloudService {
+
   async getOwnedClouds(
     requestingUserId: string
   ): Promise<(Cloud & { owner: User; sharedWith: User[] })[]> {
@@ -79,7 +80,6 @@ export class CloudService {
     requestingUserId: string
   ): Promise<Cloud> {
     const { id, ...data } = cloudData;
-
     return prisma.cloud.update({
       where: {
         id,

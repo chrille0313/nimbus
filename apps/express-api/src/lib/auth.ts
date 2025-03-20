@@ -1,4 +1,4 @@
-import prisma from '@repo/db';
+import prisma from '@repo/database';
 import { betterAuth } from 'better-auth';
 import { prismaAdapter } from 'better-auth/adapters/prisma';
 import { openAPI, username } from 'better-auth/plugins';
@@ -15,7 +15,7 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true
   },
-  plugins: [username(), openAPI()]
+  plugins: [username(), openAPI()],
 });
 
 export type SessionContext = typeof auth.$Infer.Session;
