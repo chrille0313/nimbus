@@ -1,8 +1,13 @@
 import { Request, Response } from 'express';
 import OpenAPISpecification from '@repo/openapi-spec';
-
-export function getSpecification(req: Request, res: Response) {
+import { createCloudControllers } from './components/cloud/cloud.controllers';
+import { CloudService } from './components/cloud/cloud.service';
+import { CloudDTOFactory } from './components/cloud/cloud.dto';
+function getSpecification(req: Request, res: Response) {
   res.json(OpenAPISpecification);
 }
 
-export * from './components/cloud/cloud.controllers';
+export default {
+  getSpecification,
+  ...createCloudControllers(new CloudService(), new CloudDTOFactory())
+};
