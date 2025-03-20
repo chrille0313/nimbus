@@ -123,15 +123,6 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/uuid'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/cloud'
-              required:
-                - name
-                - allocatedStorage
       responses:
         '200':
           description: OK
@@ -179,6 +170,15 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/uuid'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/cloud'
+              required:
+                - name
+                - allocatedStorage
       responses:
         '200':
           description: OK
@@ -259,7 +259,9 @@ components:
       type: string
       format: uuid
     image:
-      type: string
+      oneOf:
+        - type: string
+        - type: 'null'
       description: The path to where the image can be retrieved
     createdAt:
       type: string

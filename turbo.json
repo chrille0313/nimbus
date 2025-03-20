@@ -3,29 +3,38 @@
   "tasks": {
     "dev": {
       "persistent": true,
-      "cache": false
+      "cache": false,
+      "dependsOn": ["^build"],
+      "env": ["ENV_FILE"]
     },
     "build": {
       "dependsOn": ["^build"],
-      "outputs": [".next/**", "!.next/cache/**", "dist/**"]
+      "outputs": [".next/**", "!.next/cache/**", "dist/**"],
+      "env": ["ENV_FILE"]
     },
     "lint": {
-      "dependsOn": ["^lint", "lint:code", "lint:styles"]
+      "dependsOn": ["lint:code", "lint:styles"]
     },
     "lint:code": {
-      "dependsOn": ["^lint:code"]
+      "dependsOn": []
     },
     "lint:styles": {
-      "dependsOn": ["^lint:styles"]
+      "dependsOn": []
+    },
+    "//#lint:styles": {
+      "dependsOn": []
     },
     "lint:fix": {
-      "dependsOn": ["^lint:fix", "lint:code:fix", "lint:styles:fix"]
+      "dependsOn": ["lint:code:fix", "lint:styles:fix"]
     },
     "lint:code:fix": {
-      "dependsOn": ["^lint:code:fix"]
+      "dependsOn": []
     },
     "lint:styles:fix": {
-      "dependsOn": ["^lint:styles:fix"]
+      "dependsOn": []
+    },
+    "//#lint:styles:fix": {
+      "dependsOn": []
     }
   }
 }
