@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { isServerError } from '@/utils/errors';
+import { NotFoundError } from '@/types/errors';
 
 export type ErrorResponse = {
   statusCode: number;
@@ -37,7 +38,6 @@ export function createErrorMiddleware<T extends unknown[]>(...adapters: ErrorTyp
     for (const { errorType, adapter: handler } of adapters) {
       if (err instanceof errorType) {
         const convertedResponse = handler(err);
-
         if (convertedResponse !== undefined) {
           Object.assign(response, convertedResponse);
           break;
@@ -45,22 +45,23 @@ export function createErrorMiddleware<T extends unknown[]>(...adapters: ErrorTyp
       }
     }
 
-    const { statusCode, message, ...additionalFields } = response;
-    const hasAdditionalData = Object.keys(additionalFields).length > 0;
-    const responseData = {
-      message,
-      ...(hasAdditionalData ? { data: additionalFields } : additionalFields)
-    };
+    const { statusCode, ...additionalFields } = response;
+    let responseData;
+    if (!isServerError(statusCode)) {
+      responseData = additionalFields;
+    } else {
+      const { message, ...data } = additionalFields;
+      responseData = { message, data };
+    }
 
     res.status(statusCode);
 
     if (isServerError(response.statusCode)) {
-      console.error(err);
       res.jsend.error(responseData);
     } else {
       res.jsend.fail(responseData);
     }
 
-    next();
+    //next();
   };
 }
