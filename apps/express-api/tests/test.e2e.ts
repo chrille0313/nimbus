@@ -1,6 +1,6 @@
 import { test, describe, expect } from 'vitest';
 import { createServer } from '../src/utils/server';
-import * as api from '../src/controllers';
+import api from '../src/controllers';
 import OpenAPISpecification from '@repo/openapi-spec';
 import config from '../src/config';
 import request from 'supertest';
