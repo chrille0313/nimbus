@@ -87,7 +87,7 @@ model Cloud {
   owner            User     @relation("Owner", fields: [ownerId], references: [id], onDelete: Cascade)
   sharedWith       User[]   @relation("SharedWith")
   image            String?
-  allocatedStorage Int
+  allocatedStorage BigInt
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
 

@@ -14,7 +14,9 @@ const env = dotenvExtended.load({
 const parsedEnv = dotenvParseVariables(env);
 
 interface Config {
+  hostname: string, 
   port: number;
+  apiBaseUrl: string,
 
   openApiSpecPath: string;
 
@@ -24,7 +26,9 @@ interface Config {
 }
 
 const config: Config = {
+  hostname: parsedEnv.HOSTNAME as string,
   port: parsedEnv.PORT as number,
+  apiBaseUrl: parsedEnv.API_BASE_URL as string,
 
   openApiSpecPath: parsedEnv.OPEN_API_SPEC_PATH as string,
 
