@@ -4,7 +4,6 @@ import api from '../src/controllers';
 import OpenAPISpecification from '@repo/openapi-spec';
 import config from '../src/config';
 import request from 'supertest';
-import TestAgent from 'supertest/lib/agent';
 
 const userWithClouds = { username: 'testUsername', password: 'testUser', email: 'test@user.com' };
 const userWithoutClouds = {
