@@ -1,12 +1,12 @@
-import { Cloud, User, PrismaClient } from '@repo/database';
+import { Cloud, User, PrismaClient} from '@repo/database';
+import prisma from '../../lib/prisma';
 
 export class CloudService {
-  constructor(private persistance: PrismaClient) {}
 
   async getOwnedClouds(
     requestingUserId: string
   ): Promise<(Cloud & { owner: User; sharedWith: User[] })[]> {
-    return this.persistance.cloud.findMany({
+    return prisma.cloud.findMany({
       where: {
         ownerId: requestingUserId
       },
@@ -20,7 +20,7 @@ export class CloudService {
   async getSharedClouds(
     requestingUserId: string
   ): Promise<(Cloud & { owner: User; sharedWith: User[] })[]> {
-    return this.persistance.cloud.findMany({
+    return prisma.cloud.findMany({
       where: {
         sharedWith: {
           some: {
@@ -36,7 +36,7 @@ export class CloudService {
   }
 
   async getCloudById(cloudId: string, requestingUserId: string): Promise<Cloud | null> {
-    return this.persistance.cloud.findFirst({
+    return prisma.cloud.findFirst({
       where: {
         id: cloudId,
         OR: [
@@ -63,7 +63,7 @@ export class CloudService {
     cloudData: Pick<Cloud, 'name' | 'allocatedStorage'>,
     requestingUserId: string
   ): Promise<Cloud & { owner: User; sharedWith: User[] }> {
-    return this.persistance.cloud.create({
+    return prisma.cloud.create({
       data: {
         ...cloudData,
         ownerId: requestingUserId
@@ -80,8 +80,7 @@ export class CloudService {
     requestingUserId: string
   ): Promise<Cloud> {
     const { id, ...data } = cloudData;
-
-    return this.persistance.cloud.update({
+    return prisma.cloud.update({
       where: {
         id,
         ownerId: requestingUserId
@@ -95,7 +94,7 @@ export class CloudService {
   }
 
   async deleteCloudById(cloudId: string, requestingUserId: string): Promise<void> {
-    await this.persistance.cloud.delete({
+    await prisma.cloud.delete({
       where: {
         id: cloudId,
         ownerId: requestingUserId
