@@ -1,0 +1,21 @@
+{
+  "name": "@repo/api-client",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "import": "./gen/index.ts"
+  },
+  "scripts": {
+    "build": "orval --clean",
+    "dev": "orval --watch ../openapi-spec/src/openapi.yaml"
+  },
+  "devDependencies": {
+    "orval": "^7.6.0"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^9.6.0",
+    "axios": "^1.8.3",
+    "msw": "^2.7.3"
+  }
+}

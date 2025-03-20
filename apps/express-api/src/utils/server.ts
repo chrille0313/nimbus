@@ -42,6 +42,8 @@ export async function createServer(
   server.use(cors({ origin: 'http://localhost:3000', credentials: true }));
   // TODO: change to .env for url above
 
+  server.use(cors({ origin: 'http://localhost:3000', credentials: true }));
+
   // Add auth handling (needs to be before express.json() middleware)
   server.all('/api/v1/auth/*splat', toNodeHandler(auth));
 
@@ -70,7 +72,7 @@ export async function createServer(
     OpenApiValidator.middleware({
       apiSpec: openAPISpec as any, // FIXME: Use correct type
       validateRequests: {
-        removeAdditional: 'all'
+        // removeAdditional: 'all'
       },
       validateResponses: {
         // removeAdditional: 'all'  // TODO: Remove additional in production to avoid leaking information
