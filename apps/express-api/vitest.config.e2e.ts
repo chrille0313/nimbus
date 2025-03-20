@@ -5,6 +5,7 @@ export default mergeConfig(
   uiConfig,
   defineProject({
     test: {
+      include: ['**/*test.e2e.ts'],
       setupFiles: ['tests/helpers/setup.ts'],
       poolOptions: {
         threads: {
