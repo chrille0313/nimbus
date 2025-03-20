@@ -13,11 +13,11 @@ beforeEach(async () => {
 });
 
 afterAll(async () => {
-  // const deleteUserDetails = prisma.user.deleteMany();
-  // const deleteCloudDetails = prisma.cloud.deleteMany();
-  // const deleteSessionDetails = prisma.session.deleteMany();
-  // const deleteAccountDetails = prisma.account.deleteMany();
-  // const deleteVerificationDetails = prisma.verification.deleteMany();
+  const deleteUserDetails = prisma.user.deleteMany();
+  const deleteCloudDetails = prisma.cloud.deleteMany();
+  const deleteSessionDetails = prisma.session.deleteMany();
+  const deleteAccountDetails = prisma.account.deleteMany();
+  const deleteVerificationDetails = prisma.verification.deleteMany();
 
   await prisma.$transaction([
     deleteUserDetails,

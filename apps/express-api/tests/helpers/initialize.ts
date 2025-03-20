@@ -1,6 +1,5 @@
 import { CloudService } from '../../src/components/cloud/cloud.service';
 import { auth } from '@/lib/auth';
-import prisma from '@repo/database';
 
 export default async function Initialize() {
   // Sign up a user
@@ -32,7 +31,7 @@ export default async function Initialize() {
   });
 
   // Create cloud for the user
-  const cloudService = new CloudService(prisma);
+  const cloudService = new CloudService();
   await cloudService.createCloud(
     {
       name: 'cloud',
