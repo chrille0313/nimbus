@@ -3,9 +3,7 @@ import { Request } from 'express';
 export class CloudDTOFactory {
   get(req: Request) {
     return {
-      id: req.params.id,
-      name: req.body.name,
-      allocatedStorage: req.body.allocatedStorage
+      id: req.params.id
     };
   }
 
