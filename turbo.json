@@ -4,7 +4,6 @@
     "dev": {
       "persistent": true,
       "cache": false,
-      "dependsOn": ["^build"],
       "env": ["ENV_FILE"]
     },
     "test": {

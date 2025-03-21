@@ -11,7 +11,7 @@
   "packageManager": "npm@11.2.0",
   "scripts": {
     "prepare": "husky",
-    "dev": "turbo dev",
+    "dev": "turbo run dev --filter=./apps/*...",
     "build": "turbo build",
     "test": "turbo test",
     "view-report": "turbo view-report",
