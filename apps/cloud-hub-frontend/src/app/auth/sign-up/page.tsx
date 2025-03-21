@@ -28,7 +28,8 @@ export default async function SignUpPage() {
         <Image
           src={RegisterSideImage}
           alt="Image"
-          className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+          className="absolute inset-0 h-full w-full object-cover"
+          // className="dark:brightness-[0.2] dark:grayscale"
           priority
         />
       </div>
