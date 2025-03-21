@@ -3,8 +3,8 @@ import dotenvParseVariables from 'dotenv-parse-variables';
 
 const env = dotenvExtended.load({
   path: process.env.ENV_FILE,
-  schema: './config/.env.schema',
-  defaults: './config/.env.defaults',
+  schema: './.env.schema',
+  defaults: './.env.defaults',
   includeProcessEnv: true,
   silent: false,
   errorOnMissing: true,
@@ -14,9 +14,9 @@ const env = dotenvExtended.load({
 const parsedEnv = dotenvParseVariables(env);
 
 interface Config {
-  hostname: string, 
+  hostname: string;
   port: number;
-  apiBaseUrl: string,
+  apiBaseUrl: string;
 
   openApiSpecPath: string;
 
