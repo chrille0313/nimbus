@@ -1,7 +1,6 @@
 import { CloudCard } from '@/components/cards/cloud-card';
 import { CreateCloudCard } from '@/components/cards/create-cloud-card';
 import { requireSession } from '@/lib/utils';
-import { SidebarProvider } from '@repo/ui/components/sidebar';
 import * as API from '@repo/api-client';
 import { headers } from 'next/headers';
 import { CardGrid } from '@/components/containers/card-grid';

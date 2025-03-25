@@ -15,6 +15,7 @@ import { Alert, AlertDescription, AlertTitle } from '@repo/ui/components/alert';
 import { SelectField, ImageField, NumberField } from '@/components/forms/fields';
 import { unformatSI } from 'format-si-prefix';
 import * as API from '@repo/api-client';
+import { toast } from 'sonner';
 
 const formSchema = z.object({
   name: z.string().min(2),
@@ -41,8 +42,6 @@ export function CreateCloudForm({ className, ...props }: React.ComponentProps<'d
   });
 
   function onSubmit(values: FormSchema) {
-    console.log(values);
-
     setLoading(true);
     setError(null);
 
@@ -57,6 +56,7 @@ export function CreateCloudForm({ className, ...props }: React.ComponentProps<'d
       }
     )
       .then(() => {
+        toast.success('Cloud created successfully');
         router.push('/clouds');
       })
       .catch((error) => {
