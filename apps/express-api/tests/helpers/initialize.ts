@@ -21,7 +21,7 @@ export default async function Initialize() {
     }
   });
 
-  const userWithoutClouds = await auth.api.signUpEmail({
+  await auth.api.signUpEmail({
     body: {
       name: 'testUser2',
       username: 'testUsername2',

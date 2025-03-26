@@ -1,7 +1,7 @@
 import { createErrorAdapter } from '@/middleware/errorHandling';
 import { NotFoundError } from '@/types/errors';
 
-export const notFoundErrorAdapter = createErrorAdapter(NotFoundError, (err: NotFoundError) => {
+export const notFoundErrorAdapter = createErrorAdapter(NotFoundError, () => {
   return {
     statusCode: 404,
     message: 'Requested resource not found',

@@ -57,7 +57,7 @@ export const FileTableColumns: ColumnDef<GetCloudFiles200DataItem>[] = [
   },
   {
     id: 'actions',
-    cell: ({ row }) => {
+    cell: () => {
       return (
         <div className="flex justify-end">
           <DropdownMenu>

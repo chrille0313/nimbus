@@ -14,6 +14,7 @@
   },
   "devDependencies": {
     "@repo/typescript-config": "*",
+    "@vitejs/plugin-react": "^4.3.4",
     "@vitest/coverage-istanbul": "^3.0.7",
     "@vitest/ui": "3.0.7",
     "glob": "^11.0.1",
