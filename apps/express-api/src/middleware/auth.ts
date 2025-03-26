@@ -1,9 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
 import { auth } from '@/lib/auth';
 import { fromNodeHeaders } from 'better-auth/node';
+import config from '@/config';
 
 export async function authMiddleware(req: Request, res: Response, next: NextFunction) {
-  if (req.path.startsWith('/api/v1/specification')) {
+  if (req.path.startsWith(`${config.apiBaseUrl}/specification`)) {
     next();
     return;
   }

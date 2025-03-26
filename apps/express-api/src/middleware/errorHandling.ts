@@ -44,9 +44,10 @@ export function createErrorMiddleware<T extends unknown[]>(...adapters: ErrorTyp
         }
       }
     }
-
+    
     const { statusCode, ...additionalFields } = response;
     let responseData;
+    
     if (!isServerError(statusCode)) {
       responseData = additionalFields;
     } else {
@@ -61,6 +62,7 @@ export function createErrorMiddleware<T extends unknown[]>(...adapters: ErrorTyp
     } else {
       res.jsend.fail(responseData);
     }
+    
 
     //next();
   };

@@ -7,7 +7,7 @@
       "env": ["ENV_FILE"]
     },
     "test": {
-      "dependsOn": ["transit", "@repo/vitest-config#build"],
+      "dependsOn": ["^test", "transit", "@repo/vitest-config#build"],
       "outputs": ["coverage.json"]
     },
     "build": {

@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import OpenAPISpecification from '@repo/openapi-spec';
 import { createCloudControllers } from './components/cloud/cloud.controllers';
 import { CloudService } from './components/cloud/cloud.service';
-import { CloudDTOFactory } from './components/cloud/cloud.dto';
+import { CloudRequestDTOFactory, CloudResponseDTOFactory } from './components/cloud/cloud.dto';
 
 function getSpecification(req: Request, res: Response) {
   res.json(OpenAPISpecification);
@@ -10,5 +10,9 @@ function getSpecification(req: Request, res: Response) {
 
 export default {
   getSpecification,
-  ...createCloudControllers(new CloudService(), new CloudDTOFactory())
+  ...createCloudControllers(
+    new CloudService(),
+    new CloudRequestDTOFactory(),
+    new CloudResponseDTOFactory()
+  )
 };

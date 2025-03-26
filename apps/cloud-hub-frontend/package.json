@@ -4,9 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "dotenv-extended --path=.env.dev --errorOnMissing=true next dev --turbopack",
     "build": "next build",
-    "start": "next start",
+    "start": "dotenv-extended --path=.env.prod --errorOnMissing=true next start",
     "lint": "next lint"
   },
   "dependencies": {
@@ -28,6 +28,7 @@
     "@types/parse-unit": "^1.0.3",
     "better-auth": "^1.2.4",
     "class-variance-authority": "^0.7.1",
+    "dotenv-extended": "^2.9.0",
     "format-si-prefix": "^0.3.2",
     "lucide-react": "^0.479.0",
     "next": "15.2.2",

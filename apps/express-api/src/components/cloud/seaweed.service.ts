@@ -45,7 +45,7 @@ export class SeaweedService {
   }
 
   async createCloud(ownerId: string, cloudId: string): Promise<void> {
-    this.filer.send(
+    await this.filer.send(
       {
         file: Buffer.from([]),
         filename: '',
@@ -68,7 +68,7 @@ export class SeaweedService {
     path: string,
     file: Express.Multer.File
   ): Promise<void> {
-    this.filer.send(
+    await this.filer.send(
       {
         file: file.buffer,
         filename: file.originalname,

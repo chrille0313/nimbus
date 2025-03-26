@@ -7,8 +7,8 @@
     "import": "./gen/index.ts"
   },
   "scripts": {
-    "build": "orval --clean",
-    "dev": "orval --watch ../openapi-spec/src/openapi.yaml"
+    "build": "dotenv-extended --path=.env --errorOnMissing=true orval --clean",
+    "dev": "dotenv-extended --path=.env --errorOnMissing=true orval --watch $OPENAPI_SPECIFICATION_PATH"
   },
   "devDependencies": {
     "orval": "^7.6.0"
@@ -16,6 +16,7 @@
   "dependencies": {
     "@faker-js/faker": "^9.6.0",
     "axios": "^1.8.3",
+    "dotenv-extended": "^2.9.0",
     "msw": "^2.7.3"
   }
 }

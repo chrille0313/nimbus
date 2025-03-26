@@ -3,7 +3,6 @@ import { CloudService } from '../src/components/cloud/cloud.service';
 import { Cloud, User } from '@repo/database';
 import prisma from '../src/lib/__mocks__/prisma';
 
-
 // ~~~~~~~~~~~~~~~~~~~~ //
 // ~    Test data     ~ //
 // ~~~~~~~~~~~~~~~~~~~~ //
@@ -19,21 +18,12 @@ const testUser: User = {
   username: 'testUser',
   displayUsername: 'testUser'
 };
-const testCloud: Cloud = {
-  id: '1',
-  name: 'Example Cloud',
-  image: 'https://example.com/cloud-image.png',
-  ownerId: '1',
-  allocatedStorage: 100,
-  createdAt: new Date(),
-  updatedAt: new Date()
-};
 const testCloudShared: Cloud & { owner: User; sharedWith: User[] } = {
   id: '2',
   name: 'Example Cloud',
   image: 'https://example.com/cloud-image.png',
   ownerId: '2',
-  allocatedStorage: 100,
+  allocatedStorage: BigInt(100),
   createdAt: new Date(),
   updatedAt: new Date(),
   owner: testUser,
@@ -44,7 +34,7 @@ const testCloudOwner: Cloud & { owner: User; sharedWith: User[] } = {
   name: 'Example Cloud',
   image: 'https://example.com/cloud-image.png',
   ownerId: '1',
-  allocatedStorage: 100,
+  allocatedStorage: BigInt(100),
   createdAt: new Date(),
   updatedAt: new Date(),
   owner: testUser,
@@ -54,7 +44,7 @@ const testCloudOwner: Cloud & { owner: User; sharedWith: User[] } = {
 // ~~~~~~~~~~~~~~~~~~~~ //
 // ~    Unit Tests    ~ //
 // ~~~~~~~~~~~~~~~~~~~~ //
-
+vi.mock('seaweedts/filer');
 vi.mock('../src/lib/prisma');
 const cloudService = new CloudService();
 describe('cloud.service', () => {
@@ -103,7 +93,7 @@ describe('cloud.service', () => {
       const createdCloud = await cloudService.createCloud(
         {
           name: 'Example Cloud',
-          allocatedStorage: 100
+          allocatedStorage: BigInt(100)
         },
         '1'
       );
@@ -111,7 +101,7 @@ describe('cloud.service', () => {
       expect(prisma.cloud.create).toHaveBeenCalledWith({
         data: {
           name: 'Example Cloud',
-          allocatedStorage: 100,
+          allocatedStorage: BigInt(100),
           ownerId: '1'
         },
         include: { owner: true, sharedWith: true }
@@ -157,13 +147,13 @@ describe('cloud.service', () => {
       prisma.cloud.update.mockResolvedValue(updatedCloud);
 
       const result = await cloudService.updateCloudById(
-        { id: '1', name: 'Updated Cloud', image: '', allocatedStorage: 200 },
+        { id: '1', name: 'Updated Cloud', image: '', allocatedStorage: BigInt(200) },
         '1'
       );
 
       expect(prisma.cloud.update).toHaveBeenCalledWith({
         where: { id: '1', ownerId: '1' },
-        data: { name: 'Updated Cloud', image: '', allocatedStorage: 200 },
+        data: { name: 'Updated Cloud', image: '', allocatedStorage: BigInt(200) },
         include: { owner: true, sharedWith: true }
       });
       expect(result).toEqual(updatedCloud);
@@ -182,4 +172,3 @@ describe('cloud.service', () => {
     });
   });
 });
-

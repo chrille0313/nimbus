@@ -20,9 +20,7 @@
     "test:unit": "cross-env ENV_FILE=.env.test dotenv-extended --path=.env.test --errorOnMissing=true vitest run --config ./vitest.config.unit.ts",
     "lint:code": "eslint .",
     "lint:code:fix": "eslint . --fix",
-    "build": "tsc -p tsconfig.build.json",
-    "docker:up": "docker compose up -d",
-    "docker:down": "docker compose down"
+    "build": "tsc -p tsconfig.build.json"
   },
   "dependencies": {
     "@prisma/client": "^6.4.1",
@@ -58,8 +56,6 @@
     "@types/validator": "^13.12.2",
     "axios": "^1.8.3",
     "cross-env": "^7.0.3",
-    "docker": "^1.0.0",
-    "docker-compose": "^1.2.0",
     "prisma": "^6.4.1",
     "supertest": "^7.0.0",
     "ts-node": "^10.9.2",

@@ -25,7 +25,6 @@ describe('E2E Tests: GET /clouds', async () => {
   const app = startBackendServer();
   const agent = request.agent(await app);
 
-  // username is forced to lowercase
   test('Request with no arguments should yield status code 200 and correct response body', async () => {
     await userSignIn(agent, userWithClouds);
 
@@ -33,9 +32,8 @@ describe('E2E Tests: GET /clouds', async () => {
     expect(response.status).toEqual(200);
     expect(response.body.data[0].name).toEqual('cloud');
     expect(response.body.data[0].owner.name).toEqual('testUser');
-    //expect(response.body.data[0].owner.username).toEqual('testUsername');
     expect(response.body.data[0].image).toEqual(null);
-    expect(response.body.data[0].allocatedStorage).toEqual(5);
+    expect(response.body.data[0].allocatedStorage).toEqual('5');
     expect(response.body.data[0].sharedWith).toEqual([]);
   });
 
@@ -47,9 +45,8 @@ describe('E2E Tests: GET /clouds', async () => {
     expect(response.status).toEqual(200);
     expect(response.body.data[0].name).toEqual('cloud');
     expect(response.body.data[0].owner.name).toEqual('testUser');
-    //expect(response.body.data[0].owner.username).toEqual('testUsername');
     expect(response.body.data[0].image).toEqual(null);
-    expect(response.body.data[0].allocatedStorage).toEqual(5);
+    expect(response.body.data[0].allocatedStorage).toEqual('5');
     expect(response.body.data[0].sharedWith).toEqual([]);
   });
 
@@ -78,65 +75,28 @@ describe('E2E Tests: POST /clouds', async () => {
     await userSignIn(agent, userWithClouds);
     const response = await agent
       .post('/api/v1/clouds')
-      .send({ name: 'NewCloud', allocatedStorage: 2 });
+      .send({ name: 'NewCloud', allocatedStorage: '2' });
     expect(response.status).toEqual(201);
     expect(response.body.data.name).toEqual('NewCloud');
-    expect(response.body.data.allocatedStorage).toEqual(2);
+    expect(response.body.data.allocatedStorage).toEqual('2');
     expect(response.body.data.image).toEqual(null);
   });
-
-  // test('Request with correct arguments and set image should yield status code 201 and correct response body', async () => {
-  //   await userSignIn(agent, userWithClouds);
-  //   const response = await agent
-  //     .post('/api/v1/clouds')
-  //     .send({
-  //       name: 'NewCloud',
-  //       allocatedStorage: 2,
-  //       image: 'https://picsum.photos/seed/picsum/200/300'
-  //     });
-  //   expect(response.status).toEqual(201);
-  //   expect(response.body.data.name).toEqual('NewCloud');
-  //   expect(response.body.data.allocatedStorage).toEqual(2);
-  //   expect(response.body.data.image).toEqual('https://picsum.photos/seed/picsum/200/300');
-  // });
-
-  // test('Request with unspecified name should yield status code 400 and correct response body', async () => {
-  //   await userSignIn(agent, userWithClouds);
-  //   const response = await agent.post('/api/v1/clouds').send({ allocatedStorage: 2 });
-  //   expect(response.status).toEqual(400);
-  //   //expect(response.body.data.message).toEqual('...');
-  //   //expect(response.body.data.reason).toEqual('...');
-  // });
-
-  // test('Request with unspecified allocatedStorage should yield status code 400 and correct response body', async () => {
-  //   await userSignIn(agent, userWithClouds);
-  //   const response = await agent.post('/api/v1/clouds').send({ name: 'NewCloud' });
-  //   expect(response.status).toEqual(400);
-  //   //expect(response.body.data.message).toEqual('...');
-  //   //expect(response.body.data.reason).toEqual('...');
-  // });
-
-  // test('Request with unspecified name and allocatedStorage should yield status code 400 and correct response body', async () => {
-  //   await userSignIn(agent, userWithClouds);
-  //   const response = await agent.post('/api/v1/clouds').send({});
-  //   expect(response.status).toEqual(400);
-  //   //expect(response.body.data.message).toEqual('...');
-  //   //expect(response.body.data.reason).toEqual('...');
-  // });
 
   test('Request with assignedStorage less than 1 should yield status code 400 and correct response body', async () => {
     await userSignIn(agent, userWithClouds);
     const response = await agent
       .post('/api/v1/clouds')
-      .send({ name: 'NewCloud', allocatedStorage: 0 });
+      .send({ name: 'NewCloud', allocatedStorage: '0' });
     expect(response.status).toEqual(400);
     expect(response.body.data.message).toEqual('Bad Request');
-    expect(response.body.data.reason).toEqual('request/body/allocatedStorage must be >= 1');
+    expect(response.body.data.reason).toEqual(
+      'request/body/allocatedStorage must match pattern "^[1-9]\\d*$"'
+    );
   });
 
   test('Request with mismatched type for name should yield status code 400 and correct response body', async () => {
     await userSignIn(agent, userWithClouds);
-    const response = await agent.post('/api/v1/clouds').send({ name: 2, allocatedStorage: 2 });
+    const response = await agent.post('/api/v1/clouds').send({ name: 2, allocatedStorage: '2' });
     expect(response.status).toEqual(400);
     expect(response.body.data.message).toEqual('Bad Request');
     expect(response.body.data.reason).toEqual('request/body/name must be string');
@@ -146,22 +106,20 @@ describe('E2E Tests: POST /clouds', async () => {
     await userSignIn(agent, userWithClouds);
     const response = await agent
       .post('/api/v1/clouds')
-      .send({ name: 'NewCloud', allocatedStorage: 2, image: 2 });
+      .send({ name: 'NewCloud', allocatedStorage: '2', image: 2 });
     expect(response.status).toEqual(400);
     expect(response.body.data.message).toEqual('Bad Request');
-    expect(response.body.data.reason).toEqual(
-      'request/body/image must be string, request/body/image must be null, request/body/image must match exactly one schema in oneOf'
-    );
+    expect(response.body.data.reason).toEqual('request/body/image must be null,string');
   });
 
   test('Request with mismatched type for allocatedStorage should yield status code 400 and correct response body', async () => {
     await userSignIn(agent, userWithClouds);
     const response = await agent
       .post('/api/v1/clouds')
-      .send({ name: 'NewCloud', allocatedStorage: '2' });
+      .send({ name: 'NewCloud', allocatedStorage: 2 });
     expect(response.status).toEqual(400);
     expect(response.body.data.message).toEqual('Bad Request');
-    expect(response.body.data.reason).toEqual('request/body/allocatedStorage must be number');
+    expect(response.body.data.reason).toEqual('request/body/allocatedStorage must be string');
   });
 
   test('Request without signing in should yield status code 401 and correct response body', async () => {
@@ -186,9 +144,8 @@ describe('E2E Tests: GET /clouds/{id}', async () => {
     expect(response.status).toEqual(200);
     expect(response.body.data.name).toEqual('cloud');
     expect(response.body.data.owner.name).toEqual('testUser');
-    //expect(response.body.data.owner.username).toEqual('testUsername');
     expect(response.body.data.image).toEqual(null);
-    expect(response.body.data.allocatedStorage).toEqual(5);
+    expect(response.body.data.allocatedStorage).toEqual('5');
     expect(response.body.data.sharedWith).toEqual([]);
   });
 
@@ -235,39 +192,21 @@ describe('E2E Tests: PATCH /clouds/{id}', async () => {
 
     const response = await agent
       .patch(`/api/v1/clouds/${cloudId}`)
-      .send({ name: 'otherCloud', allocatedStorage: 10 });
+      .send({ name: 'otherCloud', allocatedStorage: '10' });
     expect(response.status).toEqual(200);
     expect(response.body.data.id).toEqual(cloudId);
     expect(response.body.data.name).toEqual('otherCloud');
     expect(response.body.data.owner.name).toEqual('testUser');
-    //expect(response.body.data.owner.username).toEqual('testUsername');
     expect(response.body.data.image).toEqual(null);
-    expect(response.body.data.allocatedStorage).toEqual(10);
+    expect(response.body.data.allocatedStorage).toEqual('10');
   });
-
-  // test('Request with correct arguments and set image should return status code 200 and correct response body', async () => {
-  //   await userSignIn(agent, userWithClouds);
-  //   const cloudId = await getCloudId(agent, 0);
-
-  //   const response = await agent.patch(`/api/v1/clouds/${cloudId}`).send({
-  //     name: 'otherCloud',
-  //     allocatedStrage: 10,
-  //     image: 'https://picsum.photos/seed/picsum/200/300'
-  //   });
-  //   expect(response.body.data.id).toEqual(cloudId);
-  //   expect(response.body.data.name).toEqual('otherCloud');
-  //   expect(response.body.data.owner.name).toEqual('testUser');
-  //   //expect(response.body.data.owner.username).toEqual('testUsername');
-  //   expect(response.body.data.image).toEqual('https://picsum.photos/seed/picsum/200/300');
-  //   expect(response.body.data.allocatedStorage).toEqual(10);
-  // });
 
   test('Request with incorrect path should yield status code 400 and correct response body', async () => {
     await userSignIn(agent, userWithClouds);
 
     const response = await agent
       .patch(`/api/v1/clouds/0`)
-      .send({ name: 'otherCloud', allocatedStorage: 10 });
+      .send({ name: 'otherCloud', allocatedStorage: '10' });
     expect(response.status).toEqual(400);
     expect(response.body.data.message).toEqual('Bad Request');
     expect(response.body.data.reason).toEqual('request/params/id must match format "uuid"');
@@ -277,14 +216,15 @@ describe('E2E Tests: PATCH /clouds/{id}', async () => {
     await userSignIn(agent, userWithClouds);
     const cloudId = await getCloudId(agent, 0);
 
-    const response = await agent.patch(`/api/v1/clouds/${cloudId}`).send({ allocatedStorage: 10 });
+    const response = await agent
+      .patch(`/api/v1/clouds/${cloudId}`)
+      .send({ allocatedStorage: '10' });
     expect(response.status).toEqual(200);
     expect(response.body.data.id).toEqual(cloudId);
     expect(response.body.data.name).toEqual('cloud');
     expect(response.body.data.owner.name).toEqual('testUser');
-    //expect(response.body.data.owner.username).toEqual('testUsername');
     expect(response.body.data.image).toEqual(null);
-    expect(response.body.data.allocatedStorage).toEqual(10);
+    expect(response.body.data.allocatedStorage).toEqual('10');
   });
 
   test('Request with missing allocatedStorage parameter should yield status code 200 and correct response body', async () => {
@@ -296,9 +236,8 @@ describe('E2E Tests: PATCH /clouds/{id}', async () => {
     expect(response.body.data.id).toEqual(cloudId);
     expect(response.body.data.name).toEqual('otherCloud');
     expect(response.body.data.owner.name).toEqual('testUser');
-    //expect(response.body.data.owner.username).toEqual('testUsername');
     expect(response.body.data.image).toEqual(null);
-    expect(response.body.data.allocatedStorage).toEqual(5);
+    expect(response.body.data.allocatedStorage).toEqual('5');
   });
 
   test('Request missing all parameters should yield status code 400 and correct response body', async () => {
@@ -310,9 +249,8 @@ describe('E2E Tests: PATCH /clouds/{id}', async () => {
     expect(response.body.data.id).toEqual(cloudId);
     expect(response.body.data.name).toEqual('cloud');
     expect(response.body.data.owner.name).toEqual('testUser');
-    // expect(response.body.data.owner.username).toEqual('testUsername');
     expect(response.body.data.image).toEqual(null);
-    expect(response.body.data.allocatedStorage).toEqual(5);
+    expect(response.body.data.allocatedStorage).toEqual('5');
   });
 
   test('Request with type mismatch for name parameter should yield status code 400 and correct response body', async () => {
@@ -321,7 +259,7 @@ describe('E2E Tests: PATCH /clouds/{id}', async () => {
 
     const response = await agent
       .patch(`/api/v1/clouds/${cloudId}`)
-      .send({ name: 2, allocatedStorage: 10 });
+      .send({ name: 2, allocatedStorage: '10' });
     expect(response.status).toEqual(400);
     expect(response.body.data.message).toEqual('Bad Request');
     expect(response.body.data.reason).toEqual('request/body/name must be string');
@@ -333,10 +271,10 @@ describe('E2E Tests: PATCH /clouds/{id}', async () => {
 
     const response = await agent
       .patch(`/api/v1/clouds/${cloudId}`)
-      .send({ name: 'otherCloud', allocatedStorage: '10' });
+      .send({ name: 'otherCloud', allocatedStorage: 10 });
     expect(response.status).toEqual(400);
     expect(response.body.data.message).toEqual('Bad Request');
-    expect(response.body.data.reason).toEqual('request/body/allocatedStorage must be number');
+    expect(response.body.data.reason).toEqual('request/body/allocatedStorage must be string');
   });
 
   test('Request with type mismatch for image parameter should yield status code 400 and correct response body ', async () => {
@@ -345,12 +283,10 @@ describe('E2E Tests: PATCH /clouds/{id}', async () => {
 
     const response = await agent
       .patch(`/api/v1/clouds/${cloudId}`)
-      .send({ name: 'otherCloud', allocatedStorage: 10, image: 2 });
+      .send({ name: 'otherCloud', allocatedStorage: '10', image: 2 });
     expect(response.status).toEqual(400);
     expect(response.body.data.message).toEqual('Bad Request');
-    expect(response.body.data.reason).toEqual(
-      'request/body/image must be string, request/body/image must be null, request/body/image must match exactly one schema in oneOf'
-    );
+    expect(response.body.data.reason).toEqual('request/body/image must be null,string');
   });
 
   test('Request with allocatedStorage less than 1 should yield status code 400 and correct response body', async () => {
@@ -359,10 +295,12 @@ describe('E2E Tests: PATCH /clouds/{id}', async () => {
 
     const response = await agent
       .patch(`/api/v1/clouds/${cloudId}`)
-      .send({ name: 'otherCloud', allocatedStorage: 0 });
+      .send({ name: 'otherCloud', allocatedStorage: '0' });
     expect(response.status).toEqual(400);
     expect(response.body.data.message).toEqual('Bad Request');
-    expect(response.body.data.reason).toEqual('request/body/allocatedStorage must be >= 1');
+    expect(response.body.data.reason).toEqual(
+      'request/body/allocatedStorage must match pattern "^[1-9]\\d*$"'
+    );
   });
 
   test('Request without signing in should yield status code 401 and correct response body', async () => {
@@ -372,7 +310,7 @@ describe('E2E Tests: PATCH /clouds/{id}', async () => {
 
     const response = await agent
       .patch(`/api/v1/clouds/${cloudId}`)
-      .send({ name: 'otherCloud', allocatedStorage: 10 });
+      .send({ name: 'otherCloud', allocatedStorage: '10' });
     expect(response.status).toEqual(401);
     expect(response.body.data.message).toEqual('Unauthorized access');
     expect(response.body.data.reason).toEqual('Invalid or missing authentication');
@@ -386,7 +324,7 @@ describe('E2E Tests: PATCH /clouds/{id}', async () => {
 
     const response = await agent
       .patch(`/api/v1/clouds/${cloudId}`)
-      .send({ name: 'otherCloud', allocatedStorage: 10 });
+      .send({ name: 'otherCloud', allocatedStorage: '10' });
     expect(response.status).toEqual(404);
     expect(response.body.data.message).toEqual('Requested resource not found');
     expect(response.body.data.reason).toEqual('The requested resource does not exist');
