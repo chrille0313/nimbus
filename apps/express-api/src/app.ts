@@ -5,11 +5,9 @@ import config from './config';
 import OpenAPISpecification from '@repo/openapi-spec';
 
 export const app = createServer(controllers, OpenAPISpecification)
-  
-.then((server: Express) => {
+  .then((server: Express) => {
     server.listen(config.port, config.hostname);
   })
   .catch((error: Error) => {
     console.error(error);
   });
- 
