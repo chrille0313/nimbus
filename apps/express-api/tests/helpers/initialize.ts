@@ -39,6 +39,7 @@ export default async function Initialize() {
     },
     userWithClouds.user.id
   );
+
   await cloudService.createCloud(
     {
       name: 'cloud',

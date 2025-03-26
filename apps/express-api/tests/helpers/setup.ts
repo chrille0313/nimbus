@@ -1,7 +1,7 @@
 import initialize from './initialize';
 import resetDb from './reset-db';
 import { afterAll, beforeEach } from 'vitest';
-import prisma from '../../src/lib/prisma';
+import prisma from '@repo/database';
 
 beforeEach(async () => {
   await resetDb();
