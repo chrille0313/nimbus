@@ -7,7 +7,9 @@
     "dev": "dotenv-extended --path=.env.dev --errorOnMissing=true next dev --turbopack",
     "build": "next build",
     "start": "dotenv-extended --path=.env.prod --errorOnMissing=true next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "npm run test:frontend",
+    "test:frontend": "cross-env ENV_FILE=.env.test dotenv-extended --path=.env.test --errorOnMissing=true vitest run --config ./vitest.config.frontend.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^4.1.3",
