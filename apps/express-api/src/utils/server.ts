@@ -27,32 +27,31 @@ export async function createServer(
 
   const server = express();
 
+  // Add logging
+  if (config.logToConsole) server.use(consoleLogs('dev'));
+  if (config.logToFile) server.use(fileLogs(config.logFilePath));
+
   // Make sure json can format BigInt
   BigInt.prototype.toJSON = function () {
     const int = Number.parseInt(this.toString());
     return int ?? this.toString();
   };
 
-  // Add logging
-  if (config.logToConsole) server.use(consoleLogs('dev'));
-  if (config.logToFile) server.use(fileLogs(config.logFilePath));
-
   // Add jsend response formatting
   server.use(jsend.middleware);
-  server.use(cors({ origin: 'http://localhost:3000', credentials: true }));
-  // TODO: change to .env for url above
 
-  server.use(cors({ origin: 'http://localhost:3000', credentials: true }));
+  // Add CORS handling
+  server.use(cors({ origin: config.trustedOrigins, credentials: true }));
 
   // Add auth handling (needs to be before express.json() middleware)
-  server.all('/api/v1/auth/*splat', toNodeHandler(auth));
+  server.all(`${config.apiBaseUrl}/auth/*splat`, toNodeHandler(auth));
 
   // Serve API documentation
   server.use(
-    '/api/v1/reference',
+    `${config.apiBaseUrl}/reference`,
     apiReference({
       spec: {
-        url: '/api/v1/specification'
+        url: `${config.apiBaseUrl}/specification`
       },
       darkMode: true,
       theme: 'deepSpace'
@@ -75,7 +74,7 @@ export async function createServer(
         // removeAdditional: 'all'
       },
       validateResponses: {
-        // removeAdditional: 'all'  // TODO: Remove additional in production to avoid leaking information
+        // removeAdditional: 'all' // TODO: Remove additional in production to avoid leaking information
       },
       validateApiSpec: true
     })

@@ -18,7 +18,14 @@ interface Config {
   port: number;
   apiBaseUrl: string;
 
-  openApiSpecPath: string;
+  trustedOrigins: string[];
+
+  betterAuthUrl: string;
+  betterAuthSecret: string;
+
+  seaweedFilerUrl: string;
+
+  databaseUrl: string;
 
   logToConsole: boolean;
   logToFile: boolean;
@@ -30,7 +37,14 @@ const config: Config = {
   port: parsedEnv.PORT as number,
   apiBaseUrl: parsedEnv.API_BASE_URL as string,
 
-  openApiSpecPath: parsedEnv.OPEN_API_SPEC_PATH as string,
+  trustedOrigins: parsedEnv.TRUSTED_ORIGINS as string[],
+
+  betterAuthUrl: parsedEnv.BETTER_AUTH_URL as string,
+  betterAuthSecret: parsedEnv.BETTER_AUTH_SECRET as string,
+
+  seaweedFilerUrl: parsedEnv.SEAWEED_FILER_URL as string,
+
+  databaseUrl: parsedEnv.DATABASE_URL as string,
 
   logToConsole: parsedEnv.LOG_TO_CONSOLE as boolean,
   logToFile: parsedEnv.LOG_TO_FILE as boolean,
