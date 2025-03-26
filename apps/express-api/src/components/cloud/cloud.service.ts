@@ -1,5 +1,5 @@
 import { Cloud, User } from '@repo/database';
-import prisma from '../../lib/prisma';
+import prisma from '@/lib/prisma';
 import { SeaweedService } from './seaweed.service';
 
 export class CloudService {
@@ -37,7 +37,10 @@ export class CloudService {
     });
   }
 
-  async getCloudById(cloudId: string, requestingUserId: string): Promise<Cloud | null> {
+  async getCloudById(
+    cloudId: string,
+    requestingUserId: string
+  ): Promise<(Cloud & { owner: User; sharedWith: User[] }) | null> {
     const cloud = await prisma.cloud.findFirst({
       where: {
         id: cloudId,
@@ -86,7 +89,7 @@ export class CloudService {
   async updateCloudById(
     cloudData: Pick<Cloud, 'id' | 'name' | 'image' | 'allocatedStorage'>,
     requestingUserId: string
-  ): Promise<Cloud> {
+  ): Promise<Cloud & { owner: User; sharedWith: User[] }> {
     const { id, ...data } = cloudData;
     return prisma.cloud.update({
       where: {
