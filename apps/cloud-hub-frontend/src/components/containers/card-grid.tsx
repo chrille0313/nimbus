@@ -1,5 +1,5 @@
 export interface CardGridProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 export function CardGrid({ children }: CardGridProps) {

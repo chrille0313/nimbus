@@ -5,7 +5,8 @@ export default mergeConfig(
   uiConfig,
   defineProject({
     test: {
-      include: ['**/*test.frontend.tsx']
+      environment: 'jsdom',
+      include: ['**/*.test.tsx']
     }
   })
 );
