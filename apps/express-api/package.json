@@ -1,0 +1,67 @@
+{
+  "name": "express-api",
+  "description": "",
+  "version": "1.0.0",
+  "author": "chrille0313",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chrille0313/cloud-hub.git#main"
+  },
+  "bugs": {
+    "url": "https://github.com/chrille0313/cloud-hub/issues"
+  },
+  "homepage": "https://github.com/chrille0313/cloud-hub/tree/main#readme",
+  "type": "module",
+  "scripts": {
+    "start": "cross-env ENV_FILE=.env.prod tsx dist/app.js",
+    "dev": "cross-env ENV_FILE=.env.dev tsx watch src/app.ts",
+    "test": "npm run test:unit && npm run test:e2e",
+    "test:e2e": "cross-env ENV_FILE=.env.test dotenv-extended --path=.env.test --errorOnMissing=true vitest run --config ./vitest.config.e2e.ts",
+    "test:unit": "cross-env ENV_FILE=.env.test dotenv-extended --path=.env.test --errorOnMissing=true vitest run --config ./vitest.config.unit.ts",
+    "lint:code": "eslint .",
+    "lint:code:fix": "eslint . --fix",
+    "build": "tsc -p tsconfig.build.json"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.4.1",
+    "@repo/database": "*",
+    "@repo/openapi-spec": "*",
+    "@repo/typescript-config": "*",
+    "@scalar/express-api-reference": "^0.4.192",
+    "better-auth": "^1.2.3",
+    "cors": "^2.8.5",
+    "dotenv-extended": "^2.9.0",
+    "dotenv-parse-variables": "^2.0.0",
+    "express": "^5.0.1",
+    "express-openapi-validator": "^5.4.6",
+    "jsend": "^1.1.0",
+    "lodash": "^4.17.21",
+    "morgan": "^1.10.0",
+    "rotating-file-stream": "^3.2.6",
+    "seaweedts": "^1.1.0",
+    "swagger-routes-express": "^3.3.3",
+    "validator": "^13.12.0"
+  },
+  "devDependencies": {
+    "@repo/eslint-config": "*",
+    "@repo/vitest-config": "*",
+    "@types/cors": "^2.8.17",
+    "@types/dotenv-parse-variables": "^2.0.3",
+    "@types/express": "^5.0.0",
+    "@types/jsend": "^1.0.32",
+    "@types/lodash": "^4.17.16",
+    "@types/morgan": "^1.9.9",
+    "@types/node": "^22.13.9",
+    "@types/supertest": "^6.0.2",
+    "@types/validator": "^13.12.2",
+    "axios": "^1.8.3",
+    "cross-env": "^7.0.3",
+    "prisma": "^6.4.1",
+    "supertest": "^7.0.0",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2",
+    "vitest": "^3.0.9",
+    "vitest-mock-extended": "^3.0.1"
+  }
+}

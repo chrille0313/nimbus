@@ -1,0 +1,28 @@
+{
+  "name": "@repo/database",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "import": "./src/index.ts"
+  },
+  "scripts": {
+    "dev": "npm run docker:up:dev && npm run db:migrate && npm run db:generate -- --watch",
+    "db:generate": "dotenv-extended --path=.env.dev --errorOnMissing=true prisma generate",
+    "db:migrate": "dotenv-extended --path=.env.dev --errorOnMissing=true prisma migrate dev --skip-generate",
+    "db:deploy": "dotenv-extended --path=.env.prod --errorOnMissing=true prisma migrate deploy",
+    "docker:up:dev": "dotenv-extended --path=.env.dev --errorOnMissing=true docker-compose -f ./docker/dev/docker-compose.yaml up -d",
+    "docker:up:prod": "dotenv-extended --path=.env.prod --errorOnMissing=true docker-compose up -d",
+    "test": "npm run docker:up:test && npm run db:migrate:test",
+    "db:migrate:test": "dotenv-extended --path=.env.test --errorOnMissing=true prisma migrate dev",
+    "docker:up:test": "dotenv-extended --path=.env.test --errorOnMissing=true docker-compose -f ./docker/tests/docker-compose.yaml up -d",
+    "studio": "dotenv-extended --path=.env.dev --errorOnMissing=true prisma studio"
+  },
+  "devDependencies": {
+    "prisma": "^6.4.1"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.4.1",
+    "dotenv-extended": "^2.9.0"
+  }
+}

@@ -2,16 +2,47 @@
   "$schema": "https://turborepo.org/schema.json",
   "tasks": {
     "dev": {
+      "persistent": true,
       "cache": false,
-      "persistent": true
+      "env": ["ENV_FILE"]
+    },
+    "test": {
+      "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "dependsOn": ["^test", "transit", "@repo/vitest-config#build"],
+      "outputs": ["coverage.json"]
     },
     "build": {
       "dependsOn": ["^build"],
-      "outputs": [".next/**", "!.next/cache/**"]
+      "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "outputs": [".next/**", "!.next/cache/**", "dist/**", "gen/**"],
+      "env": ["ENV_FILE"]
     },
     "lint": {
-      "dependsOn": ["^build"]
+      "dependsOn": ["lint:code", "lint:styles"]
     },
-    "format-code": {}
+    "lint:code": {
+      "dependsOn": []
+    },
+    "lint:styles": {
+      "dependsOn": []
+    },
+    "//#lint:styles": {
+      "dependsOn": []
+    },
+    "lint:fix": {
+      "dependsOn": ["lint:code:fix", "lint:styles:fix"]
+    },
+    "lint:code:fix": {
+      "dependsOn": []
+    },
+    "lint:styles:fix": {
+      "dependsOn": []
+    },
+    "//#lint:styles:fix": {
+      "dependsOn": []
+    },
+    "transit": {
+      "dependsOn": ["^transit"]
+    }
   }
 }

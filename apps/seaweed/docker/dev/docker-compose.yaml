@@ -1,0 +1,72 @@
+name: seaweed
+
+services:
+  master:
+    image: chrislusf/seaweedfs
+    container_name: seaweed_master_server
+    ports:
+      - '9333:9333' # HTTP port
+      - '19333:19333' # GRPC port
+      - '9324:9324' # Metrics port
+    command: 'master -ip=master -port=9333 -metricsPort=9324'
+
+  volume1:
+    image: chrislusf/seaweedfs
+    container_name: seaweed_volume_server1
+    depends_on:
+      - master
+    ports:
+      - '8080:8080' # HTTP port
+      - '18080:18080' # GRPC port
+      - '9325:9325' # Metrics port
+    volumes:
+      - seaweed_volume_data1:/data/seaweedfs/volume
+    command: 'volume -mserver="master:9333" -port=8080 -metricsPort=9325 -dir=/data/seaweedfs/volume'
+
+  volume2:
+    image: chrislusf/seaweedfs
+    container_name: seaweed_volume_server2
+    depends_on:
+      - master
+    ports:
+      - '8081:8081' # HTTP port
+      - '18081:18081' # GRPC port
+      - '9326:9326' # Metrics port
+    volumes:
+      - seaweed_volume_data2:/data/seaweedfs/volume
+    command: 'volume -mserver="master:9333" -port=8081 -metricsPort=9326 -dir=/data/seaweedfs/volume'
+
+  volume3:
+    image: chrislusf/seaweedfs
+    container_name: seaweed_volume_server3
+    depends_on:
+      - master
+    ports:
+      - '8082:8082' # HTTP port
+      - '18082:18082' # GRPC port
+      - '9327:9327' # Metrics port
+    volumes:
+      - seaweed_volume_data3:/data/seaweedfs/volume
+    command: 'volume -mserver="master:9333" -port=8082 -metricsPort=9327 -dir=/data/seaweedfs/volume'
+
+  filer:
+    image: chrislusf/seaweedfs
+    container_name: seaweed_filer_server
+    depends_on:
+      - master
+      - volume1
+      - volume2
+      - volume3
+    ports:
+      - 8888:8888 # HTTP port
+      - 18888:18888 # GRPC port
+      - 9328:9328 # Metrics port
+    tty: true
+    stdin_open: true
+    command: 'filer -master="master:9333" -port=8888 -metricsPort=9328'
+
+volumes:
+  seaweed_master_data:
+  seaweed_volume_data1:
+  seaweed_volume_data2:
+  seaweed_volume_data3:

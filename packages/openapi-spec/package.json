@@ -1,0 +1,35 @@
+{
+  "name": "@repo/openapi-spec",
+  "version": "1.0.0",
+  "description": "OpenAPI specification for the cloud-hub API",
+  "type": "module",
+  "files": [
+    "dist/"
+  ],
+  "exports": {
+    "import": "./dist/index.js"
+  },
+  "scripts": {
+    "dev": "chokidar \"./src/openapi.yaml\" \"./src/index.ts\" -c \"npm run build\" --initial",
+    "build": "npm run generate-types && tsc && npm run copy-spec",
+    "lint": "npm run lint:code && npm run lint:specification",
+    "lint:code": "eslint .",
+    "lint:specification": "npx @redocly/cli lint src/openapi.yaml",
+    "copy-spec": "cpx src/openapi.yaml dist/",
+    "generate-types": "openapi-typescript src/openapi.yaml -o src/openapi.d.ts"
+  },
+  "dependencies": {
+    "yaml": "^2.7.0"
+  },
+  "devDependencies": {
+    "@repo/eslint-config": "*",
+    "@repo/typescript-config": "*",
+    "@types/node": "^22.13.10",
+    "@types/yamljs": "^0.2.34",
+    "chokidar-cli": "^3.0.0",
+    "cpx": "^1.5.0",
+    "openapi-typescript": "^7.6.1",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.8.2"
+  }
+}
