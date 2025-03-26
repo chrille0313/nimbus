@@ -47,8 +47,8 @@ export class SeaweedService {
   async createCloud(ownerId: string, cloudId: string): Promise<void> {
     await this.filer.send(
       {
-        file: Buffer.from([]),
-        filename: '',
+        file: Buffer.alloc(0),
+        filename: cloudId,
         path: `${this.getCloudPath(ownerId, cloudId, '/')}`
       },
       {}
