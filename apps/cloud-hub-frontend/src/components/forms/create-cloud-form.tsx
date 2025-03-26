@@ -49,7 +49,9 @@ export function CreateCloudForm({ className, ...props }: React.ComponentProps<'d
       {
         name: values.name,
         image: values.image,
-        allocatedStorage: unformatSI(`${values.allocatedStorage}${values.allocatedStorageUnit[0]}`)
+        allocatedStorage: unformatSI(
+          `${values.allocatedStorage}${values.allocatedStorageUnit[0]}`
+        ).toString()
       },
       {
         withCredentials: true
