@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
 import { isServerError } from '@/utils/errors';
-import { NotFoundError } from '@/types/errors';
 
 export type ErrorResponse = {
   statusCode: number;
@@ -64,6 +63,6 @@ export function createErrorMiddleware<T extends unknown[]>(...adapters: ErrorTyp
     }
     
 
-    //next();
+    next();
   };
 }
