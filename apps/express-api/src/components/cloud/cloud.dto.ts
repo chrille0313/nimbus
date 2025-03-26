@@ -1,6 +1,7 @@
+import { Cloud, User } from '@repo/database';
 import { Request } from 'express';
 
-export class CloudDTOFactory {
+export class CloudRequestDTOFactory {
   get(req: Request) {
     return {
       id: req.params.id,
@@ -11,7 +12,7 @@ export class CloudDTOFactory {
   create(req: Request) {
     return {
       name: req.body.name,
-      allocatedStorage: req.body.allocatedStorage,
+      allocatedStorage: req.body.allocatedStorage && BigInt(req.body.allocatedStorage),
       requestingUserId: req.context.user.id
     };
   }
@@ -21,7 +22,7 @@ export class CloudDTOFactory {
       id: req.params.id,
       name: req.body.name,
       image: req.body.image,
-      allocatedStorage: req.body.allocatedStorage,
+      allocatedStorage: req.body.allocatedStorage && BigInt(req.body.allocatedStorage),
       requestingUserId: req.context.user.id
     };
   }
@@ -47,6 +48,15 @@ export class CloudDTOFactory {
       rootDir: req.params.path ?? '',
       files: req.files,
       requestingUserId: req.context.user.id
+    };
+  }
+}
+
+export class CloudResponseDTOFactory {
+  from(cloud: Cloud & { owner: User; sharedWith: User[] }) {
+    return {
+      ...cloud,
+      allocatedStorage: cloud.allocatedStorage.toString()
     };
   }
 }

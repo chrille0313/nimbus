@@ -720,10 +720,14 @@ components:
     uuid:
       type: string
       format: uuid
+    bigint:
+      type: string
+      format: int64
+
     image:
-      oneOf:
-        - type: string
-        - type: 'null'
+      type:
+        - 'null'
+        - string
       description: The path to where the image can be retrieved
     createdAt:
       type: string
@@ -772,8 +776,8 @@ components:
         image:
           $ref: '#/components/schemas/image'
         allocatedStorage:
-          type: number
-          minimum: 1
+          $ref: '#/components/schemas/bigint'
+          pattern: '^[1-9]\d*$'
           description: The amount of storage (in bytes) allocated for the cloud
         createdAt:
           $ref: '#/components/schemas/createdAt'

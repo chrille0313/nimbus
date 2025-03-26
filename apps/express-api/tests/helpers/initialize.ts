@@ -1,5 +1,5 @@
 import { CloudService } from '../../src/components/cloud/cloud.service';
-import { auth } from '@/lib/auth';
+import { auth } from '../../src/lib/auth';
 
 export default async function Initialize() {
   // Sign up a user
@@ -35,14 +35,14 @@ export default async function Initialize() {
   await cloudService.createCloud(
     {
       name: 'cloud',
-      allocatedStorage: 5
+      allocatedStorage: BigInt(5)
     },
     userWithClouds.user.id
   );
   await cloudService.createCloud(
     {
       name: 'cloud',
-      allocatedStorage: 5
+      allocatedStorage: BigInt(5)
     },
     otherUserWithClouds.user.id
   );

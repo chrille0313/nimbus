@@ -1,18 +1,24 @@
 import * as express from 'express';
 import { NotFoundError } from '@/types/errors';
 import { CloudService } from './cloud.service';
-import { CloudDTOFactory } from './cloud.dto';
+import { CloudRequestDTOFactory, CloudResponseDTOFactory } from './cloud.dto';
 
-export function createCloudControllers(cloudService: CloudService, dtoFactory: CloudDTOFactory) {
+export function createCloudControllers(
+  cloudService: CloudService,
+  requestDtoFactory: CloudRequestDTOFactory,
+  responseDtoFactory: CloudResponseDTOFactory
+) {
   return {
     getClouds: async (req: express.Request, res: express.Response) => {
       const authenticatedUser = req.context.user;
       const clouds = await cloudService.getOwnedClouds(authenticatedUser.id);
-      res.jsend.success(clouds);
+
+      const response = clouds.map((cloud) => responseDtoFactory.from(cloud));
+      res.jsend.success(response);
     },
 
     getCloud: async (req: express.Request, res: express.Response) => {
-      const requestDTO = dtoFactory.get(req);
+      const requestDTO = requestDtoFactory.get(req);
 
       if (!requestDTO.id) {
         throw new NotFoundError();
@@ -24,19 +30,22 @@ export function createCloudControllers(cloudService: CloudService, dtoFactory: C
         throw new NotFoundError();
       }
 
-      res.jsend.success(cloud);
+      const response = responseDtoFactory.from(cloud);
+      res.jsend.success(response);
     },
 
     createCloud: async (req: express.Request, res: express.Response) => {
-      const requestDTO = dtoFactory.create(req);
+      const requestDTO = requestDtoFactory.create(req);
       const { requestingUserId, ...rest } = requestDTO;
+
       const createdCloud = await cloudService.createCloud(rest, requestingUserId);
 
-      res.status(201).jsend.success(createdCloud);
+      const response = responseDtoFactory.from(createdCloud);
+      res.status(201).jsend.success(response);
     },
 
     updateCloud: async (req: express.Request, res: express.Response) => {
-      const requestDTO = dtoFactory.update(req);
+      const requestDTO = requestDtoFactory.update(req);
 
       if (!requestDTO.id) {
         throw new NotFoundError();
@@ -51,11 +60,13 @@ export function createCloudControllers(cloudService: CloudService, dtoFactory: C
       const { requestingUserId, id, ...rest } = requestDTO;
       const updatedCloud = await cloudService.updateCloudById({ id, ...rest }, requestingUserId);
 
-      res.jsend.success(updatedCloud);
+      const response = responseDtoFactory.from(updatedCloud);
+
+      res.jsend.success(response);
     },
 
     deleteCloud: async (req: express.Request, res: express.Response) => {
-      const requestDTO = dtoFactory.delete(req);
+      const requestDTO = requestDtoFactory.delete(req);
 
       if (!requestDTO.id) {
         throw new NotFoundError();
@@ -73,7 +84,7 @@ export function createCloudControllers(cloudService: CloudService, dtoFactory: C
     },
 
     getCloudFiles: async (req: express.Request, res: express.Response) => {
-      const requestDTO = dtoFactory.getFiles(req);
+      const requestDTO = requestDtoFactory.getFiles(req);
 
       if (!requestDTO.cloudId) {
         throw new NotFoundError();
@@ -89,7 +100,7 @@ export function createCloudControllers(cloudService: CloudService, dtoFactory: C
     },
 
     uploadFileToCloud: async (req: express.Request, res: express.Response) => {
-      const requestDTO = dtoFactory.uploadFiles(req);
+      const requestDTO = requestDtoFactory.uploadFiles(req);
 
       if (!requestDTO.cloudId) {
         throw new NotFoundError();
