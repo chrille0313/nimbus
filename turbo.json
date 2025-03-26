@@ -7,6 +7,7 @@
       "env": ["ENV_FILE"]
     },
     "test": {
+      "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "dependsOn": ["^test", "transit", "@repo/vitest-config#build"],
       "outputs": ["coverage.json"]
     },
